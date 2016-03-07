@@ -161,24 +161,6 @@ files in `src/` are rebased into `out/` (so `src/base/foo.py` becomes
 
 ## Detailed Dependency Information
 -------------
-* The AppEngine SDK should be present in the directory:
-
-   `$HOME/bin/google_appengine/`
-
-You can find / download this at:
-<https://developers.google.com/appengine/downloads>
-
-* (Optional, if using Google Closure): The Google Closure Compiler (and a
-  suitable Java runtime), located at:
-
-  `$HOME/bin/google_closure/`
-
-You can find / download this at:
-  <https://github.com/google/closure-compiler>
-
-You will need all the files from this archive in the above directory:
-  compiler-latest.zip
-
 The compiler is invoked with the default namespace of 'app.'  The compiled
 Javascript is written to `out/static/app.js`.
 

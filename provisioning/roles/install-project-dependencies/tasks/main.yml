@@ -1,0 +1,2 @@
+- name: install node modules
+  npm: path=/vagrant

@@ -1,0 +1,18 @@
+- name: install apt dependencies
+  apt: pkg={{item}} update-cache=yes
+  with_items:
+    - build-essential
+    - g++
+    - git-all
+    - markdown
+    - html2text
+
+- name: make Vagrant start in the shared folder after ssh
+  lineinfile: dest=/home/vagrant/.bashrc line="cd /vagrant"
+
+- name: print quick commands sheet instructions after ssh
+  lineinfile: >
+    dest=/etc/update-motd.d/60-dev-readme
+    create=yes
+    mode=755
+    line="#!/bin/sh\necho \"\n##### COMMANDS #####\"\nmarkdown /vagrant/COMMANDS.md | html2text\necho \"####################\n\nUNIT9 wishes you a great day!\n\""

@@ -1,5 +1,5 @@
 {
-  "appid": "scaffold",
+  "appid": "gae-secure-scaffold-python",
   "use_closure": true,
   "use_closure_templates": true
 }

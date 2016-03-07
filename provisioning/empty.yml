@@ -1,0 +1,6 @@
+---
+- hosts: all
+  sudo: false
+  tasks:
+    - name: Ensure Ansible is installed
+      command: echo ""

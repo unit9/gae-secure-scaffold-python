@@ -1,7 +1,10 @@
 out/
 node_modules/
+bower_components/
 .DS_Store
 *.pyc
 *.swp
 *~
 .vagrant
+vagrant_ansible_inventory_default
+playbook.retry
