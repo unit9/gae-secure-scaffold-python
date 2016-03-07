@@ -1,14 +1,21 @@
-# Secure GAE Scaffold
+# Secure GAE Scaffold (UNIT9)
 
 ## Introduction
 ----
-Please note: this is not an official Google product.
+
+### Disclaimer
+Please note: this is not an official Google product.  
+This is a [UNIT9](http://www.unit9.com) fork of the Secure GAE Scaffold. You
+can find the original repository
+[here](https://github.com/google/gae-secure-scaffold-python).
 
 This contains a boilerplate AppEngine application meant to provide a secure
-base on which to build additional functionality.  Structure:
+base on which to build additional functionality. It has been extended with a
+gulp-based front end build system.
+
+### Structure
 
 * / - top level directory for common files, e.g. app.yaml
-* /js - directory for uncompiled Javascript resources.
 * /src - directory for all source code
 * /static - directory for static content
 * /templates - directory for Django/Jinja2 templates your app renders.
