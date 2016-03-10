@@ -21,10 +21,6 @@ gulp-based front end build system.
 * /templates - directory for Django/Jinja2 templates your app renders.
 * /templates/soy - directory for Closure Templates your application uses.
 
-Javascript resources for your application can be written using Closure,
-and compiled by Google's Closure Compiler (detailed below in the dependencies
-section).
-
 The scaffold provides the following basic security guarantees by default through
 a set of base classes found in `src/base/handlers.py`.  These handlers:
 

@@ -1,5 +1,5 @@
 Development task:  
-```$ npm run develop```
+```$ npm run dev```
 
-Production start task:  
-```$ npm start```
+Production build task:  
+```$ npm run prod```
