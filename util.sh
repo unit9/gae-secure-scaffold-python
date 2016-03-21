@@ -44,7 +44,6 @@ APPCFG=$APPENGINE_BASE_DIR/appcfg.py
 DEV_APPSERVER=$APPENGINE_BASE_DIR/dev_appserver.py
 CLOSURE_COMPILER_JAR=$HOME/bin/google_closure/compiler.jar
 CLOSURE_TEMPLATES_BASE_DIR=$HOME/bin/google_closure_templates/
-CLOSUREBUILDER=$PWD/closure-library/closure/bin/build/closurebuilder.py
 OUTPUT_DIR=$PWD/out
 
 usage() {

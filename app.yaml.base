@@ -57,4 +57,3 @@ skip_files:
          - run_tests.py
          - .*_test.py
          - js/.*
-         - closure-library/.*
