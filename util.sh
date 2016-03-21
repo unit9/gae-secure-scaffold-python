@@ -85,6 +85,7 @@ reset_output_dir() {
   $CP -R $PWD/third_party/py/* $OUTPUT_DIR
   $CP -R $PWD/src/* $OUTPUT_DIR
   $CP -R $PWD/templates $OUTPUT_DIR
+  $RM -rf $OUTPUT_DIR/app
 }
 
 build() {
@@ -108,11 +109,11 @@ deploy() {
     die "appcfg.py not found at $APPCFG"
   fi
   if [[ $1 =~ ^[a-zA-Z0-9-]+$ ]] ; then
-    reset_output_dir
+#    reset_output_dir
     local version=$(compute_version_string)
     gen_app_yaml $1 $version
     gen_prod_js
-    $APPCFG --no_cookies --skip_sdk_update_check update $OUTPUT_DIR
+    $APPCFG --no_cookies --skip_sdk_update_check --noauth_local_webserver update $OUTPUT_DIR
   else
     die "invalid application name $1"
   fi

@@ -56,114 +56,82 @@ Sample implementations can be found in `src/handlers.py`.  These demonstrate
 basic functionality, and should be removed / replaced by code specific to
 your application.
 
-
-## Prerequisites
-----
-These instructions have been tested with the following software:
-
-* node.js >= 0.8.0
-    * 0.8.0 is the minimum required to build with [Grunt](http://gruntjs.com/).
-* git
-* curl
-
-An alternative to the Grunt build is provided via the `util.sh` shell script.
-
 ## Dependency Setup
 ----
-1.  `pushd .`
-1.  `mkdir $HOME/bin; cd $HOME/bin`
-1.  `npm install grunt-cli`
-    * Alternatively, `sudo npm install -g grunt-cli` will install system-wide
-      and you may skip the next step.
-1.  `export PATH=$HOME/bin/node_modules/grunt-cli/bin:$PATH`
-    * It is advisable to add this to login profile scripts (.bashrc, etc.).
-1.  Visit <https://developers.google.com/appengine/downloads>, copy URL of
-    "Linux/Other Platforms" zip file for current AppEngine SDK.  Do this
-    regardless of whether you are on Linux or OS X.
-1.  `curl -O <url on clipboard>`
-1.  `unzip google_appengine_*.zip`
-1.  `mkdir google_closure; cd google_closure`
-1.  `curl -O https://dl.google.com/closure-compiler/compiler-latest.zip`
-1.  `unzip compiler-latest.zip; cd ..`
-1.  `mkdir google_closure_templates; cd google_closure_templates`
-1.  `curl -O https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip`
-1.  `unzip closure-templates-for-javascript-latest.zip`
-1.  `popd`
 
-To install dependencies for unit testing:
-1. `sudo easy_install pip`
-1. `sudo pip install unittest2`
+1. Install vagrant  
+http://vagrantup.com/
+
+1. Instal required Vagrant plugins  
+```$ vagrant plugin install vagrant-host-shell```
+
+1. Install Ansible
+```$ brew install ansible```
+
+1. Install VirtualBox  
+https://www.virtualbox.org/
+
+1. Clone the repo
+
+1. Enter the project directory  
+```$ cd $PROJECT_DIR ```
+
+1. Run Vagrant  
+```$ vagrant up```
+
+## Development process 
+----
+
+####Start up Vagrant:
+`$ vagrant up`
+
+#### Log in into Vagrant:
+`l$ vagrant ssh`
+
 
 ## Scaffold Setup
 ----
+
 These instructions assume a working directory of the repository root.
 
-### Dependencies
+### Local Development
+To run the development appserver locally:
 
-All users should run:
-
-1. `git submodule init`
-1. `git submodule update`
-
-Grunt users should also run:
-
-`npm install`
+`$ npm run dev`
 
 ### Testing
 To run unit tests:
 
 `python run_tests.py ~/bin/google_appengine src`
 
-### Local Development
-To run the development appserver locally:
-
-1. `grunt clean`
-1. `grunt`
-1. `grunt appengine:run:app`
-
 Note that the development appserver will be running on a snapshot of code
-at the time you run it.  If you make changes, you can run the various Grunt
-tasks in order to propagate them to the local appserver.  For instance:
-
-`grunt copy` will refresh the source code (local and third party), static files,
-and templates.  You can run `grunt closureSoys` and/or `grunt closureBuilder`
-before `grunt copy` if you need to rebuild your Closure Templates or Closure
-Javascript.
-
-If you are not using Grunt, simply run:
-
-`util.sh -d`
+at the time you run it.
 
 ### Deployment
+To build final application:
+
+`$ npm run prod`
+
 To deploy to AppEngine:
 
-1. `grunt clean`
-1. `grunt --appid=<appid>`
-1. `grunt appengine:update:app --appid=<appid>`
-
-Specifying `--appid=` will override any value set in `config.json`.  You may
-modify the `config.json` file to avoid having to pass this parameter on
-every invocation.
-
-If you are not using Grunt, simply run:
-
-`util.sh -p <appid>`
+`$ ./util.sh -p <app-id>`
 
 ## Notes
 ----
-Files in `js/` are compiled by the Closure Compiler (if available) and placed in
-`out/static/app.js`.
 
-Closure templates are compiled by the Closure Template Compiler (if available)
-and placed in `out/static/app.soy.js`.
-
-The `/static` and `/template` directories are replicated in `out/`, and the
-files in `src/` are rebased into `out/` (so `src/base/foo.py` becomes
+The `/base` and `/template` and `/examples` directories are replicated in `out/`
+, and the files in `src/` are rebased into `out/` (so `src/base/foo.py` becomes
 `out/base/foo.py`).
 
+Files directly in '/src' are rebased into '/out' (e.g. `src/main.py` becomes 
+`out/main.py`).
 
-## Detailed Dependency Information
--------------
+The `/static` directory is generated based on src/app folder. Html files are 
+build based on jade files. JavaScript files are compiled from coffeeScript files.
+
+## Detailed Dependency Information (TODO)
+----
+
 The compiler is invoked with the default namespace of 'app.'  The compiled
 Javascript is written to `out/static/app.js`.
 
