@@ -2,7 +2,7 @@
   "name": "gae-scaffold",
   "version": "0.0.1",
   "scripts": {
-    "dev": "./util.sh -b && gulp dev & ./util.sh -s",
+    "dev": "./util.sh -b && gulp build && gulp dev & ./util.sh -s",
     "prod": "./util.sh -b && gulp"
   },
   "devDependencies": {

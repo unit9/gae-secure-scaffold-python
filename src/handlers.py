@@ -20,7 +20,7 @@ from base import handlers
 class RootHandler(handlers.BaseHandler):
 
   def get(self):
-    self.redirect('/static/index.html')
+    self.render('index.html')
 
 class CspHandler(handlers.BaseAjaxHandler):
 

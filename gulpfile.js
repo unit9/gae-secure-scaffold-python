@@ -16,7 +16,8 @@ var argv = require('yargs').argv
     common: {
       paths: {
         src: 'src/app',
-        dist: 'out/static'
+        dist: 'out/static',
+        tpl: 'out/templates'
       }
     },
     dev: {
@@ -59,7 +60,7 @@ gulp.task('jade', function () {
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', ['coffee', 'jade'], cb);
+  runSequence('clean', ['coffee', 'jade'], 'organise-release', cb);
 });
 
 // This task serves the output using a simple HTTP server.
@@ -75,6 +76,11 @@ gulp.task('serve', function () {
       } : {}
     }
   });
+});
+
+gulp.task('organise-release', function () {
+  return gulp.src(config.paths.dist + '/index.html')
+    .pipe(gulp.dest(config.paths.tpl + '/'));
 });
 
 // The develop task builds a development version of the project and serves the

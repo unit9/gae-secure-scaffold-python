@@ -128,3 +128,7 @@ Files directly in '/src' are rebased into '/out' (e.g. `src/main.py` becomes
 
 The `/static` directory is generated based on src/app folder. Html files are 
 build based on jade files. JavaScript files are compiled from coffeeScript files.
+
+Local Front End server works on port 3000 (http://localhost:3000).
+
+Local Back End server works on port 8080 (http://localhost:8080).
