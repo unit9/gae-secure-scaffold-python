@@ -27,7 +27,7 @@ from examples import example_handlers
 from api import api_handlers
 
 # These should all inherit from base.handlers.BaseHandler
-_UNAUTHENTICATED_ROUTES = [('/', handlers.RootHandler),
+_UNAUTHENTICATED_ROUTES = [#('/', handlers.RootHandler),
                            ('/api/health', api_handlers.ApiHandler),
                            ('/examples/xss', example_handlers.XssHandler),
                            ('/examples/xssi', example_handlers.XssiHandler)]

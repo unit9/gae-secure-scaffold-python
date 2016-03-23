@@ -17,10 +17,10 @@ import logging
 from base import handlers
 
 # Minimal set of handlers to let you display main page with examples
-class RootHandler(handlers.BaseHandler):
-
-  def get(self):
-    self.render('index.html')
+# class RootHandler(handlers.BaseHandler):
+#
+#   def get(self):
+#     self.render('base.tpl')
 
 class CspHandler(handlers.BaseAjaxHandler):
 

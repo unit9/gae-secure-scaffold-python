@@ -80,7 +80,7 @@ gulp.task('copy-images', function () {
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', ['coffee', 'jade', 'sass', 'copy'], 'organise-release', cb);
+  runSequence('clean', ['coffee', 'jade', 'sass', 'copy'], cb);
 });
 
 // This task serves the output using a simple HTTP server.
@@ -96,13 +96,6 @@ gulp.task('serve', function () {
       } : {}
     }
   });
-});
-
-// This task organises files
-// As release structure is different from dev one
-gulp.task('organise-release', function () {
-  return gulp.src(config.paths.dist + '/index.html')
-    .pipe(gulp.dest(config.paths.tpl + '/'));
 });
 
 // Simple task for watching files

@@ -26,15 +26,23 @@ handlers:
           mime_type: text/css
           static_files: static/\1
           upload: static/(.*\.css)
+
 # javascript files
         - url: /(.*\.js)
           mime_type: text/javascript
           static_files: static/\1
           upload: static/(.*\.js)
+
 # image files
         - url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
           static_files: static/\1
           upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+# site root
+        - url: /
+          static_files: static/index.html
+          upload: static/index.html
+          expiration: "15m"
 
 # All URLs should be mapped via the *_ROUTES variables in the src/main.py file.
 # See https://webapp-improved.appspot.com/guide/routing.html for information on
@@ -43,6 +51,18 @@ handlers:
         - url: /.*
           script: main.app
           secure: always
+
+# If you specify regex that cover all existing paths for backend above
+# you can use below rules to redirect all non-existing request to site root
+# index file for 404 case
+        # - url: /(.+)/
+        #   static_files: static/index.html
+        #   upload: static/index.html
+        #   expiration: "15m"
+        # - url: /(.+)
+        #   static_files: static/index.html
+        #   upload: static/index.html
+        #   expiration: "15m"
 
 libraries:
         - name: django
