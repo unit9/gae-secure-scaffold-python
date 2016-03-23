@@ -104,12 +104,22 @@ gulp.task('organise-release', function () {
     .pipe(gulp.dest(config.paths.tpl + '/'));
 });
 
+// Simple task for watching Front End files
+gulp.task('watch', function () {
+  gulp.watch(config.paths.src + '/**/*.jade', ['jade'])
+    .on('change', browserSync.reload);
+  gulp.watch(config.paths.src + '/scripts/**/*.coffee', ['coffee'])
+    .on('change', browserSync.reload);
+  gulp.watch(config.paths.src + '/styles/**/*.scss', ['sass']);
+  gulp.watch(config.paths.dist + '/**/*.css').on('change', browserSync.reload);
+});
+
 // The develop task builds a development version of the project and serves the
 // output via HTTP.
 gulp.task('dev', function (cb) {
   argv.dev = true;
   computeConfig();
-  runSequence('build', 'serve', cb);
+  runSequence('build', 'serve', 'watch', cb);
 });
 
 // By default we build the production version.
