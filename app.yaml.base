@@ -20,15 +20,21 @@ threadsafe: true
 handlers:
 # All static files are redirected to static folder
 # Config based on: https://gist.github.com/darktable/873098
+
+# stylesheet files
         - url: /(.*\.css)
           mime_type: text/css
           static_files: static/\1
           upload: static/(.*\.css)
-
+# javascript files
         - url: /(.*\.js)
           mime_type: text/javascript
           static_files: static/\1
           upload: static/(.*\.js)
+# image files
+        - url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+          static_files: static/\1
+          upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
 
 # All URLs should be mapped via the *_ROUTES variables in the src/main.py file.
 # See https://webapp-improved.appspot.com/guide/routing.html for information on

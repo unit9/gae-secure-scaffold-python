@@ -64,11 +64,22 @@ gulp.task('jade', function () {
     .pipe(gulp.dest(config.paths.dist));
 });
 
+// Simple task for coping files from source to target place
+gulp.task('copy', function (cb) {
+  runSequence('copy-images', cb);
+});
+
+// Simple jade build task.
+gulp.task('copy-images', function () {
+  return gulp.src(config.paths.src + '/images/**/*.png')
+    .pipe(gulp.dest(config.paths.dist + '/images'));
+});
+
 // The main build task. Its job is to build all sources and output a full build.
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', ['coffee', 'jade', 'sass'], 'organise-release', cb);
+  runSequence('clean', ['coffee', 'jade', 'sass', 'copy'], 'organise-release', cb);
 });
 
 // This task serves the output using a simple HTTP server.
