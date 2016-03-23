@@ -1,4 +1,4 @@
-var argv = require('yargs').argv
+var argv = require('yargs').argv,
   gulp = require('gulp'),
   runSequence = require('run-sequence'),
   merge = require('deepmerge'),
@@ -6,6 +6,7 @@ var argv = require('yargs').argv
   del = require('del'),
   browserSync = require('browser-sync'),
   sass = require('gulp-sass'),
+  shell = require('gulp-shell'),
   $ = require('gulp-load-plugins')(),
 
   // Actual config object to use. Set automatically from the configs below.
@@ -104,8 +105,13 @@ gulp.task('organise-release', function () {
     .pipe(gulp.dest(config.paths.tpl + '/'));
 });
 
+// Simple task for watching files
+gulp.task('watch', function (cb) {
+  runSequence('watch-fe', 'watch-be', cb);
+});
+
 // Simple task for watching Front End files
-gulp.task('watch', function () {
+gulp.task('watch-fe', function () {
   gulp.watch(config.paths.src + '/**/*.jade', ['jade'])
     .on('change', browserSync.reload);
   gulp.watch(config.paths.src + '/scripts/**/*.coffee', ['coffee'])
@@ -113,6 +119,13 @@ gulp.task('watch', function () {
   gulp.watch(config.paths.src + '/styles/**/*.scss', ['sass']);
   gulp.watch(config.paths.dist + '/**/*.css').on('change', browserSync.reload);
 });
+
+// Simple task for watching Back End files
+gulp.task('watch-be', function (cb) {
+  gulp.watch('./src/**/*.py', ['build-python']);
+});
+
+gulp.task('build-python', shell.task('./util.sh -b'));
 
 // The develop task builds a development version of the project and serves the
 // output via HTTP.

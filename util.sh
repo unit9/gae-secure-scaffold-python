@@ -76,11 +76,14 @@ gen_app_yaml() {
     -e "s/__VERSION__/$2/" > $OUTPUT_DIR/app.yaml
 }
 
-reset_output_dir() {
+clean_output_dir() {
   if [[ -e $OUTPUT_DIR ]] ; then
     $RM -rf $OUTPUT_DIR
   fi
   $MKDIR $OUTPUT_DIR
+}
+
+reset_output_dir() {
   $CP -R $PWD/third_party/py/* $OUTPUT_DIR
   $CP -R $PWD/src/* $OUTPUT_DIR
   $CP -R $PWD/templates $OUTPUT_DIR
@@ -108,7 +111,7 @@ deploy() {
     die "appcfg.py not found at $APPCFG"
   fi
   if [[ $1 =~ ^[a-zA-Z0-9-]+$ ]] ; then
-#    reset_output_dir
+    reset_output_dir
     local version=$(compute_version_string)
     gen_app_yaml $1 $version
     gen_prod_js
@@ -118,7 +121,7 @@ deploy() {
   fi
 }
 
-args=`getopt hbsp: $*`
+args=`getopt hbscp: $*`
 
 if [[ $? -ne 0 ]] ; then
   usage
@@ -132,6 +135,7 @@ while [[ $# -ne 0 ]] ; do
     -b) build; shift;;
     -s) serve; shift;;
     -p) deploy $2; shift; shift ;;
+    -c) clean_output_dir; shift;;
     --) shift; break;;
     *) die "unknown option \"$1\""; usage;;
   esac
