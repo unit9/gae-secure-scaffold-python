@@ -5,6 +5,7 @@ var argv = require('yargs').argv
   historyApiFallback = require('connect-history-api-fallback'),
   del = require('del'),
   browserSync = require('browser-sync'),
+  sass = require('gulp-sass'),
   $ = require('gulp-load-plugins')(),
 
   // Actual config object to use. Set automatically from the configs below.
@@ -42,6 +43,13 @@ gulp.task('clean', function () {
   return del.sync([config.paths.dist]);
 });
 
+// Simple scss build task.
+gulp.task('sass', function () {
+  return gulp.src(config.paths.src + '/styles/**/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest(config.paths.dist + '/styles'));
+});
+
 // Simple coffee build task.
 gulp.task('coffee', function () {
   return gulp.src(config.paths.src + '/scripts/**/*.coffee')
@@ -60,7 +68,7 @@ gulp.task('jade', function () {
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', ['coffee', 'jade'], 'organise-release', cb);
+  runSequence('clean', ['coffee', 'jade', 'sass'], 'organise-release', cb);
 });
 
 // This task serves the output using a simple HTTP server.
@@ -78,6 +86,8 @@ gulp.task('serve', function () {
   });
 });
 
+// This task organises files
+// As release structure is different from dev one
 gulp.task('organise-release', function () {
   return gulp.src(config.paths.dist + '/index.html')
     .pipe(gulp.dest(config.paths.tpl + '/'));
