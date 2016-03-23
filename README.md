@@ -135,4 +135,5 @@ Local Back End server works on port 8080 (http://localhost:8080).
 
 Right now `index.html` file is provided as static file from 
 `out/static/index.html`. If you decide to generate this from template, uncomment
-routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23)
+routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And 
+change rule from app.yaml.base (line 42)

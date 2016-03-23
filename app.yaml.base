@@ -44,25 +44,20 @@ handlers:
           upload: static/index.html
           expiration: "15m"
 
-# All URLs should be mapped via the *_ROUTES variables in the src/main.py file.
-# See https://webapp-improved.appspot.com/guide/routing.html for information on
-# how URLs are routed in the webapp2 framework. Do not add additional handlers
-# directly here.
-        - url: /.*
+# All URLs for Back End logic
+        - url: /api/.*
           script: main.app
           secure: always
 
-# If you specify regex that cover all existing paths for backend above
-# you can use below rules to redirect all non-existing request to site root
-# index file for 404 case
-        # - url: /(.+)/
-        #   static_files: static/index.html
-        #   upload: static/index.html
-        #   expiration: "15m"
-        # - url: /(.+)
-        #   static_files: static/index.html
-        #   upload: static/index.html
-        #   expiration: "15m"
+# All non-existing requests redirected to site root
+        - url: /(.+)/
+          static_files: static/index.html
+          upload: static/index.html
+          expiration: "15m"
+        - url: /(.+)
+          static_files: static/index.html
+          upload: static/index.html
+          expiration: "15m"
 
 libraries:
         - name: django
