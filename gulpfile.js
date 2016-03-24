@@ -6,6 +6,7 @@ var argv = require('yargs').argv,
   del = require('del'),
   browserSync = require('browser-sync'),
   sass = require('gulp-sass'),
+  sassLint = require('gulp-sass-lint'),
   shell = require('gulp-shell'),
   $ = require('gulp-load-plugins')(),
 
@@ -47,6 +48,9 @@ gulp.task('clean', function () {
 // Simple scss build task.
 gulp.task('sass', function () {
   return gulp.src(config.paths.src + '/styles/**/*.scss')
+    .pipe(sassLint())
+    .pipe(sassLint.format())
+    .pipe(sassLint.failOnError())
     .pipe(sass())
     .pipe(gulp.dest(config.paths.dist + '/styles'));
 });

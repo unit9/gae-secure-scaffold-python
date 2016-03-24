@@ -1,4 +1,7 @@
-* {
-  background-color: #000000;
-  color: #cacaca;
+$color-black: #000;
+$color-theme: #cacaca;
+
+body {
+  background: $color-black;
+  color: $color-theme;
 }
