@@ -8,6 +8,8 @@ var argv = require('yargs').argv,
   sass = require('gulp-sass'),
   sassLint = require('gulp-sass-lint'),
   shell = require('gulp-shell'),
+  bump = require('gulp-bump'),
+  spritesmith = require('gulp.spritesmith'),
   $ = require('gulp-load-plugins')(),
 
   // Actual config object to use. Set automatically from the configs below.
@@ -84,7 +86,7 @@ gulp.task('copy-images', function () {
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', ['coffee', 'jade', 'sass', 'copy'], cb);
+  runSequence('clean', ['coffee', 'jade', 'sprite', 'sass', 'copy'], cb);
 });
 
 // This task serves the output using a simple HTTP server.
@@ -122,7 +124,29 @@ gulp.task('watch-be', function (cb) {
   gulp.watch('./src/**/*.py', ['build-python']);
 });
 
+// This task runs shell script created to build python project
 gulp.task('build-python', shell.task('./util.sh -b'));
+
+// Simple task for bumping app version
+gulp.task('bump', function () {
+  return gulp.src(['./bower.json', './package.json'])
+    .pipe(bump({type: 'patch'}))
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('sprite', function () {
+  return gulp.src(config.paths.src + '/images/sprite/*.png')
+    .pipe(spritesmith({
+      imgName: '/images/sprite.png',
+      cssName: '/styles/base/_assets.scss',
+      // imgPath: '/images/sprite.png',
+      // retinaImgName: 'sprite@2x.png',
+      // retinaImgPath: '/images/sprite@2x.png',
+      // retinaSrcFilter: [PATHS.SRC + '/images/sprite/*@2x.png'],
+      padding: 10
+    }))
+    .pipe(gulp.dest(config.paths.src + '/app/'));
+});
 
 // The develop task builds a development version of the project and serves the
 // output via HTTP.
@@ -133,4 +157,4 @@ gulp.task('dev', function (cb) {
 });
 
 // By default we build the production version.
-gulp.task('default', ['build']);
+gulp.task('default', ['build', 'bump']);
