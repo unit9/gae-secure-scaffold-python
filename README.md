@@ -138,15 +138,20 @@ Right now `index.html` file is provided as static file from
 routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And 
 change rule from app.yaml.base (line 42)
 
-## Forking this repo
+## Forking this repository
 ----
 
 We're going to maintain and update this repository. To keep your clone up to 
-date, set this one as upstream. To do that, after creating you own copy/clone 
-type:
+date, set this repository as upstream. To do that:
 
+1. Create your new repo and pull to your local machine
+1. Make a clone of this repo to your new empty local repo
+1. Add upstream to your repository
 `git remote add upstream https://github.com/unit9/gae-secure-scaffold-python.git`
 
-After that you can manually update your version by typing:
+Now when you want to pull recent changes
 
+1. Pull latest version from base repo
 `git pull upstream master`
+1. Push changes to your repo
+`git push origin master`
