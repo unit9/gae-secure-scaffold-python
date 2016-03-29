@@ -49,7 +49,7 @@ gulp.task('clean', function () {
 
 // Simple scss build task.
 gulp.task('sass', function () {
-  return gulp.src(config.paths.src + '/styles/**/*.scss')
+  return gulp.src([config.paths.src + '/styles/**/*.scss', '!' + config.paths.src + '/styles/**/_assets.scss'])
     .pipe(sassLint())
     .pipe(sassLint.format())
     .pipe(sassLint.failOnError())
