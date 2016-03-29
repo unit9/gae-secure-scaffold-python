@@ -137,3 +137,16 @@ Right now `index.html` file is provided as static file from
 `out/static/index.html`. If you decide to generate this from template, uncomment
 routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And 
 change rule from app.yaml.base (line 42)
+
+## Forking this repo
+----
+
+We're going to maintain and update this repository. To keep your clone up to 
+date, set this one as upstream. To do that, after creating you own copy/clone 
+type:
+
+`git remote add upstream https://github.com/unit9/gae-secure-scaffold-python.git`
+
+After that you can manually update your version by typing:
+
+`git pull upstream master`
