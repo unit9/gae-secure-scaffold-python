@@ -1,2 +1,5 @@
 - name: install node modules
-  npm: path=/vagrant
+  npm: name={{item}} global=yes
+  with_items:
+    - bower
+    - slush
