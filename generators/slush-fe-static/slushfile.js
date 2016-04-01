@@ -20,7 +20,7 @@ var gulp = require('gulp'),
 
     config = {
       paths: {
-        dist: ''
+        dist: './src/app'
       }
     };
 
@@ -59,19 +59,19 @@ var defaults = (function () {
 
 gulp.task('copy-files', function (cb) {
   return gulp.src([__dirname + '/templates/**/*.png'])
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
 gulp.task('templatize', function (cb) {
   gulp.src([__dirname + '/templates/**', '!' + __dirname + '/templates/**/*.png'])
-    .pipe(template(config))
+    .pipe(template(config.answers))
     .pipe(rename(function (file) {
       if (file.basename[0] === '*') {
         file.basename = '.' + file.basename.slice(1);
       }
     }))
     .pipe(conflict('./'))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest(config.paths.dist + '/'))
     .pipe(install())
     .on('end', function () {
       cb();
@@ -96,7 +96,8 @@ gulp.task('default', function (cb) {
     inquirer.prompt(prompts,
         function (answers) {
             answers.appNameSlug = _.slugify(answers.appName);
-            config = answers;
+            config.answers = answers;
+            console.log('__dirname', __dirname);
             runSequence('copy-files', 'templatize', cb);
         });
 });
