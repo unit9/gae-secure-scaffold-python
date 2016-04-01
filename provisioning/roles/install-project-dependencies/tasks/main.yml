@@ -1,5 +1,5 @@
 - name: install node modules
   npm: path=/vagrant
 
-- name: install python unittest2
-  pip: name=unittest2
+- name: install python requirements
+  pip: name=/vagrant/src/requirements.txt
