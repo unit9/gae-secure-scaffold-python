@@ -15,7 +15,14 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     _ = require('underscore.string'),
     inquirer = require('inquirer'),
-    path = require('path');
+    runSequence = require('run-sequence'),
+    path = require('path'),
+
+    config = {
+      paths: {
+        dist: ''
+      }
+    };
 
 function format(string) {
     var username = string.toLowerCase();
@@ -50,7 +57,28 @@ var defaults = (function () {
     };
 })();
 
-gulp.task('default', function (done) {
+gulp.task('copy-files', function (cb) {
+  return gulp.src([__dirname + '/templates/**/*.png'])
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('templatize', function (cb) {
+  gulp.src([__dirname + '/templates/**', '!' + __dirname + '/templates/**/*.png'])
+    .pipe(template(config))
+    .pipe(rename(function (file) {
+      if (file.basename[0] === '*') {
+        file.basename = '.' + file.basename.slice(1);
+      }
+    }))
+    .pipe(conflict('./'))
+    .pipe(gulp.dest('./'))
+    .pipe(install())
+    .on('end', function () {
+      cb();
+    });
+});
+
+gulp.task('default', function (cb) {
     var prompts = [{
         name: 'appName',
         message: 'What is the name of your project?',
@@ -67,22 +95,8 @@ gulp.task('default', function (done) {
     //Ask
     inquirer.prompt(prompts,
         function (answers) {
-            if (!answers.moveon) {
-                return done();
-            }
             answers.appNameSlug = _.slugify(answers.appName);
-            gulp.src(__dirname + '/templates/**')
-                .pipe(template(answers))
-                .pipe(rename(function (file) {
-                    if (file.basename[0] === '_') {
-                        file.basename = '.' + file.basename.slice(1);
-                    }
-                }))
-                .pipe(conflict('./'))
-                .pipe(gulp.dest('./'))
-                .pipe(install())
-                .on('end', function () {
-                    done();
-                });
+            config = answers;
+            runSequence('copy-files', 'templatize', cb);
         });
 });
