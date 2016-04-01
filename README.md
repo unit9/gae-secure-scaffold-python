@@ -102,7 +102,7 @@ To run the development appserver locally:
 ### Testing
 To run unit tests:
 
-`python run_tests.py ~/bin/google_appengine src`
+`python run_tests.py ~/google_appengine src`
 
 Note that the development appserver will be running on a snapshot of code
 at the time you run it.
