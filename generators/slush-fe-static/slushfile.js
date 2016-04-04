@@ -20,7 +20,9 @@ var gulp = require('gulp'),
 
     config = {
       paths: {
-        dist: './src/app'
+        dist: './src/app',
+        app: '/templates/app',
+        proj: '/templates/proj'
       }
     };
 
@@ -57,13 +59,18 @@ var defaults = (function () {
     };
 })();
 
-gulp.task('copy-files', function (cb) {
-  return gulp.src([__dirname + '/templates/**/*.png'])
+gulp.task('copy-project-config', function (cb) {
+  return gulp.src([__dirname + config.paths.proj + '/**/*.png'])
     .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
-gulp.task('templatize', function (cb) {
-  gulp.src([__dirname + '/templates/**', '!' + __dirname + '/templates/**/*.png'])
+gulp.task('copy-files', function (cb) {
+  return gulp.src([__dirname + config.paths.app + '/**/*.png'])
+    .pipe(gulp.dest(config.paths.dist + '/'));
+});
+
+gulp.task('templatize-app', function (cb) {
+  gulp.src([__dirname + config.paths.app + '/**', '!' + __dirname + config.paths.app + '/**/*.png'])
     .pipe(template(config.answers))
     .pipe(rename(function (file) {
       if (file.basename[0] === '*') {
@@ -98,6 +105,6 @@ gulp.task('default', function (cb) {
             answers.appNameSlug = _.slugify(answers.appName);
             config.answers = answers;
             console.log('__dirname', __dirname);
-            runSequence('copy-files', 'templatize', cb);
+            runSequence('copy-files', 'templatize-app', cb);
         });
 });
