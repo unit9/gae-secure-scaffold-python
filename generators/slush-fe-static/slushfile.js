@@ -1,11 +1,3 @@
-/*
- * slush-fe-static
- * https://github.com/krzysztofnowak/slush-fe-static
- *
- * Copyright (c) 2016, Krzysztof Nowak
- * Licensed under the MIT license.
- */
-
 'use strict';
 
 var gulp = require('gulp'),

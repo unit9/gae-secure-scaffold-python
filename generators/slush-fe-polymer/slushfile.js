@@ -1,11 +1,3 @@
-/*
- * slush-fe-polymer
- * https://github.com/krzysztofnowak/slush-fe-polymer
- *
- * Copyright (c) 2016, Krzysztof Nowak
- * Licensed under the MIT license.
- */
-
 'use strict';
 
 var gulp = require('gulp'),
