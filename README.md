@@ -17,7 +17,6 @@ gulp-based front end build system.
 
 * / - top level directory for common files, e.g. app.yaml
 * /src - directory for all source code
-* /static - directory for static content
 * /templates - directory for Django/Jinja2 templates your app renders.
 
 The scaffold provides the following basic security guarantees by default through
@@ -87,6 +86,16 @@ https://www.virtualbox.org/
 #### Log in into Vagrant:
 `l$ vagrant ssh`
 
+## Front end Setup
+----
+
+By default there are no front end files. You can start writing your own files. 
+Or you can use slush generator with prepared scripts to build scaffold for you. 
+Generator is recommeded option. We provide several generators:
+
+* fe-static - very simple structure of files. No framework, pure structure.
+* fe-polymer - Polymer framework. WIP
+* fe-angular2 - TBD
 
 ## Scaffold Setup
 ----
@@ -125,14 +134,11 @@ The `/base` and `/template` and `/examples` directories are replicated in `out/`
 Files directly in '/src' are rebased into '/out' (e.g. `src/main.py` becomes 
 `out/main.py`).
 
-The `/static` directory is generated based on src/app folder. Html files are 
-build based on jade files. JavaScript files are compiled from coffeeScript files.
-
 Local Front End server works on port 3000 (http://localhost:3000).
 
 Local Back End server works on port 8080 (http://localhost:8080).
 
-Right now `index.html` file is provided as static file from 
+Right now `index.html` file has provided as static file from 
 `out/static/index.html`. If you decide to generate this from template, uncomment
 routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And 
 change rule from app.yaml.base (line 42)

@@ -59,9 +59,20 @@ var defaults = (function () {
     };
 })();
 
-gulp.task('copy-project-files', function (cb) {
-  return gulp.src([__dirname + config.paths.proj + '/**/*.*'])
-    .pipe(gulp.dest('./'));
+gulp.task('templatize-project-files', function (cb) {
+  gulp.src([__dirname + config.paths.proj + '/**/*.*'])
+    .pipe(template(config.answers))
+    .pipe(rename(function (file) {
+      if (file.basename[0] === '*') {
+        file.basename = '.' + file.basename.slice(1);
+      }
+    }))
+    .pipe(conflict('./'))
+    .pipe(gulp.dest('./'))
+    .pipe(install())
+      .on('end', function () {
+        cb();
+      });
 });
 
 gulp.task('copy-files', function (cb) {
@@ -105,6 +116,6 @@ gulp.task('default', function (cb) {
             answers.appNameSlug = _.slugify(answers.appName);
             config.answers = answers;
             console.log('__dirname', __dirname);
-            runSequence('copy-files', 'templatize-app', 'copy-project-files', cb);
+            runSequence('copy-files', 'templatize-app', 'templatize-project-files', cb);
         });
 });
