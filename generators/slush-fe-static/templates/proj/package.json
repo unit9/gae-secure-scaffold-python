@@ -1,5 +1,5 @@
 {
-  "name": "gae-scaffold",
+  "name": "<%= appName %>",
   "version": "0.0.1",
   "scripts": {
     "dev": "./util.sh -c && ./util.sh -b && gulp build && gulp dev & ./util.sh -s",

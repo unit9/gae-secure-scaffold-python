@@ -10,7 +10,6 @@
 
 var gulp = require('gulp'),
     install = require('gulp-install'),
-    conflict = require('gulp-conflict'),
     template = require('gulp-template'),
     rename = require('gulp-rename'),
     _ = require('underscore.string'),
@@ -67,7 +66,6 @@ gulp.task('templatize-project-files', function (cb) {
         file.basename = '.' + file.basename.slice(1);
       }
     }))
-    .pipe(conflict('./'))
     .pipe(gulp.dest('./'))
     .pipe(install())
       .on('end', function () {
@@ -75,7 +73,7 @@ gulp.task('templatize-project-files', function (cb) {
       });
 });
 
-gulp.task('copy-files', function (cb) {
+gulp.task('copy-files', function () {
   return gulp.src([__dirname + config.paths.app + '/**/*.png'])
     .pipe(gulp.dest(config.paths.dist + '/'));
 });
@@ -88,7 +86,6 @@ gulp.task('templatize-app', function (cb) {
         file.basename = '.' + file.basename.slice(1);
       }
     }))
-    .pipe(conflict('./'))
     .pipe(gulp.dest(config.paths.dist + '/'))
     .pipe(install())
     .on('end', function () {
@@ -116,6 +113,6 @@ gulp.task('default', function (cb) {
             answers.appNameSlug = _.slugify(answers.appName);
             config.answers = answers;
             console.log('__dirname', __dirname);
-            runSequence('copy-files', 'templatize-app', 'templatize-project-files', cb);
+            runSequence('copy-files', ['templatize-app', 'templatize-project-files'], cb);
         });
 });
