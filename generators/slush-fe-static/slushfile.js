@@ -98,14 +98,14 @@ gulp.task('default', function (cb) {
         name: 'appName',
         message: 'What is the name of your project?',
         default: defaults.appName
-    // }, {
-    //     name: 'authorName',
-    //     message: 'What is the author name?',
-    //     default: defaults.authorName
-    // }, {
-    //     name: 'authorEmail',
-    //     message: 'What is the author email?',
-    //     default: defaults.authorEmail
+    }, {
+        name: 'authorName',
+        message: 'What is the author name?',
+        default: defaults.authorName
+    }, {
+        name: 'authorEmail',
+        message: 'What is the author email?',
+        default: defaults.authorEmail
     }];
     //Ask
     inquirer.prompt(prompts,
