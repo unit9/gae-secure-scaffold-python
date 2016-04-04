@@ -1,0 +1,24 @@
+{
+  "name": "polymer-<%= name %>",
+  "version": "0.0.1",
+  "description": "Polymer <%= name %> element",
+  "main": "<%= name %>.html",
+  "keywords": [
+    "polymer",
+    "element",
+    "<%= name %>"
+  ],
+  "authors": [
+    "Maciej Zasada <maciej@unit9.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

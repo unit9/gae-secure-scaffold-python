@@ -1,0 +1,20 @@
+{
+  "name": "slush-fe-polymer-element",
+  "version": "1.0.0",
+  "description": "",
+  "main": "slushfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slushgenerator"
+  ],
+  "author": "Maciej Zasada <maciej@unit9.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp-conflict": "^0.4.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-template": "^3.1.0"
+  }
+}
