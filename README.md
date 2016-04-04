@@ -19,7 +19,6 @@ gulp-based front end build system.
 * /src - directory for all source code
 * /static - directory for static content
 * /templates - directory for Django/Jinja2 templates your app renders.
-* /templates/soy - directory for Closure Templates your application uses.
 
 The scaffold provides the following basic security guarantees by default through
 a set of base classes found in `src/base/handlers.py`.  These handlers:
