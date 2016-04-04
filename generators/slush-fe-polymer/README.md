@@ -1,69 +1,25 @@
-# Slush Fe-polymer [![Build Status](https://secure.travis-ci.org/krzysztofnowak/slush-fe-polymer.png?branch=master)](https://travis-ci.org/krzysztofnowak/slush-fe-polymer) [![NPM version](https://badge-me.herokuapp.com/api/npm/slush-fe-polymer.png)](http://badges.enytc.com/for/npm/slush-fe-polymer)
+# Slush Fe-polymer 
 
-> 
+## Usage
 
+### Create Front End Project Scaffold
 
-## Getting Started
-
-Install `slush-fe-polymer` globally:
-
-```bash
-$ npm install -g slush-fe-polymer
-```
-
-### Usage
-
-Create a new folder for your project:
+Run the generator from within root folder:
 
 ```bash
-$ mkdir my-slush-fe-polymer
+$ slush fe-polymer
 ```
+and follow prompt instructions
 
-Run the generator from within the new folder:
+### Create Polymer element
+
+Run the generator from within root folder:
 
 ```bash
-$ cd my-slush-fe-polymer && slush fe-polymer
+$ slush fe-polymer:element [/path/to/element][element-name]
 ```
+where:
 
-## Getting To Know Slush
+* [/path/to/element] - is relative path inside elements/ folder
 
-Slush is a tool that uses Gulp for project scaffolding.
-
-Slush does not contain anything "out of the box", except the ability to locate installed slush generators and to run them with liftoff.
-
-To find out more about Slush, check out the [documentation](https://github.com/slushjs/slush).
-
-## Contributing
-
-See the [CONTRIBUTING Guidelines](https://github.com/krzysztofnowak/slush-fe-polymer/blob/master/CONTRIBUTING.md)
-
-## Support
-If you have any problem or suggestion please open an issue [here](https://github.com/krzysztofnowak/slush-fe-polymer/issues).
-
-## License 
-
-The MIT License
-
-Copyright (c) 2016, Krzysztof Nowak
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
+* [element-name] - is the name of new element 

@@ -2,26 +2,15 @@
     "name": "slush-fe-polymer",
     "description": "",
     "version": "0.1.0",
-    "homepage": "https://github.com/krzysztofnowak/slush-fe-polymer",
     "author": {
         "name": "Krzysztof Nowak",
         "email": "krzysztof.nowak@unit9.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/krzysztofnowak/slush-fe-polymer.git"
-    },
-    "bugs": {
-        "url": "https://github.com/krzysztofnowak/slush-fe-polymer/issues"
     },
     "license": "MIT",
     "main": "slushfile.js",
     "engines": {
         "node": ">= 0.10.26",
         "npm": ">=1.4.3"
-    },
-    "scripts": {
-        "test": "echo \"No tests\""
     },
     "dependencies": {
         "slush": ">=1.0.0",

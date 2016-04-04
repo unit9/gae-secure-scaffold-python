@@ -64,6 +64,7 @@ var defaults = (function () {
   };
 })();
 
+// Simple task for generating project. Generates project main files
 gulp.task('templatize-project-files', function (cb) {
   gulp.src([__dirname + config.paths.proj + '/**/*.*'])
     .pipe(template(config.answers))
@@ -79,11 +80,13 @@ gulp.task('templatize-project-files', function (cb) {
     });
 });
 
+// Simple task for generating project. Copies binary files
 gulp.task('copy-files', function () {
   return gulp.src([__dirname + config.paths.app + '/**/*.png'])
     .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
+// Simple task for generating project. Generates project content files
 gulp.task('templatize-app', function (cb) {
   gulp.src([__dirname + config.paths.app + '/**', '!' + __dirname + config.paths.app + '/**/*.png'])
     .pipe(template(config.answers))
@@ -99,6 +102,7 @@ gulp.task('templatize-app', function (cb) {
     });
 });
 
+//Default generator task. Generates project scaffold
 gulp.task('default', function (cb) {
   var prompts = [{
     name: 'appName',
@@ -122,12 +126,13 @@ gulp.task('default', function (cb) {
     });
 });
 
+//Additional generator task. Generates component
 gulp.task('element', function (cb) {
   var path, name, split, outputPath, bowerPath, srcPath;
 
   // Validate arguments.
   if (gulp.args.length !== 1) {
-    return console.warn('Invalid number of arguments. Usage: slush fe-polymer-element path/element-name');
+    return console.warn('Invalid number of arguments. Usage: slush fe-polymer:element path/element-name');
   }
 
   path = gulp.args[0];
