@@ -1,0 +1,20 @@
+{
+  "name": "<%= appNameSlug %>",
+  "description": "",
+  "main": "",
+  "authors": [
+    "<%= authorName %> <<%= authorEmail %>>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/unit9/gae-secure-scaffold-python",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

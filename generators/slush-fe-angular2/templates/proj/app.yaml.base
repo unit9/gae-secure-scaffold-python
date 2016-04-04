@@ -1,0 +1,88 @@
+###########################################################################
+# DO NOT MODIFY THIS FILE WITHOUT UNDERSTANDING THE SECURITY IMPLICATIONS #
+###########################################################################
+
+# The "application" parameter is automatically set based on the below rules:
+# For util.sh: the argument to '-p' is used
+# For Grunt users: the 'appid' value in config.json.  It may also be
+#                  overriden by passing an '--appid=' parameter to grunt
+# You do not need to modify it here.
+application: __APPLICATION__
+
+# The version is automatically generated based on the current git hash.
+# If there are uncommitted changes, a '-dev' suffix will be added. You do
+# not need to modify it here.
+version: __VERSION__
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+# All static files are redirected to static folder
+# Config based on: https://gist.github.com/darktable/873098
+
+# stylesheet files
+        - url: /(.*\.css)
+          mime_type: text/css
+          static_files: static/\1
+          upload: static/(.*\.css)
+
+# javascript files
+        - url: /(.*\.js)
+          mime_type: text/javascript
+          static_files: static/\1
+          upload: static/(.*\.js)
+
+# image files
+        - url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+          static_files: static/\1
+          upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+# html files
+        - url: /(.*\.html)
+          static_files: static/\1
+          upload: static/(.*\.html)
+
+# site root
+        - url: /
+          static_files: static/index.html
+          upload: static/index.html
+          expiration: "15m"
+
+# All URLs for Back End logic
+        - url: /api/.*
+          script: main.app
+          secure: always
+
+# All non-existing requests redirected to site root
+        - url: /(.+)/
+          static_files: static/index.html
+          upload: static/index.html
+          expiration: "15m"
+        - url: /(.+)
+          static_files: static/index.html
+          upload: static/index.html
+          expiration: "15m"
+
+libraries:
+        - name: django
+          version: latest
+
+        - name: jinja2
+          version: latest
+
+        - name: webapp2
+          version: latest
+
+skip_files:
+         - ^(.*/)?#.*#$
+         - ^(.*/)?.*~$
+         - ^(.*/)?.*\.py[co]$
+         - ^(.*/)?.*/RCS/.*$
+         - ^(.*/)?\..*$
+         - app.yaml.base
+         - README
+         - util.sh
+         - run_tests.py
+         - .*_test.py
+         - js/.*
