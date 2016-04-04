@@ -59,9 +59,9 @@ var defaults = (function () {
     };
 })();
 
-gulp.task('copy-project-config', function (cb) {
-  return gulp.src([__dirname + config.paths.proj + '/**/*.png'])
-    .pipe(gulp.dest(config.paths.dist + '/'));
+gulp.task('copy-project-files', function (cb) {
+  return gulp.src([__dirname + config.paths.proj + '/**/*.*'])
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('copy-files', function (cb) {
@@ -105,6 +105,6 @@ gulp.task('default', function (cb) {
             answers.appNameSlug = _.slugify(answers.appName);
             config.answers = answers;
             console.log('__dirname', __dirname);
-            runSequence('copy-files', 'templatize-app', cb);
+            runSequence('copy-files', 'templatize-app', 'copy-project-files', cb);
         });
 });
