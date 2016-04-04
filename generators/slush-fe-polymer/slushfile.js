@@ -1,6 +1,6 @@
 /*
- * slush-fe-static
- * https://github.com/krzysztofnowak/slush-fe-static
+ * slush-fe-polymer
+ * https://github.com/krzysztofnowak/slush-fe-polymer
  *
  * Copyright (c) 2016, Krzysztof Nowak
  * Licensed under the MIT license.
@@ -10,12 +10,12 @@
 
 var gulp = require('gulp'),
     install = require('gulp-install'),
+    conflict = require('gulp-conflict'),
     template = require('gulp-template'),
     rename = require('gulp-rename'),
     _ = require('underscore.string'),
     inquirer = require('inquirer'),
-    runSequence = require('run-sequence'),
-    path = require('path'),
+    path = require('path')
 
     config = {
       paths: {
@@ -58,42 +58,12 @@ var defaults = (function () {
     };
 })();
 
-gulp.task('templatize-project-files', function (cb) {
-  gulp.src([__dirname + config.paths.proj + '/**/*.*'])
-    .pipe(template(config.answers))
-    .pipe(rename(function (file) {
-      if (file.basename[0] === '*') {
-        file.basename = '.' + file.basename.slice(1);
-      }
-    }))
-    .pipe(gulp.dest('./'))
-    .pipe(install())
-      .on('end', function () {
-        cb();
-      });
-});
-
 gulp.task('copy-files', function () {
   return gulp.src([__dirname + config.paths.app + '/**/*.png'])
     .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
-gulp.task('templatize-app', function (cb) {
-  gulp.src([__dirname + config.paths.app + '/**', '!' + __dirname + config.paths.app + '/**/*.png'])
-    .pipe(template(config.answers))
-    .pipe(rename(function (file) {
-      if (file.basename[0] === '*') {
-        file.basename = '.' + file.basename.slice(1);
-      }
-    }))
-    .pipe(gulp.dest(config.paths.dist + '/'))
-    .pipe(install())
-    .on('end', function () {
-      cb();
-    });
-});
-
-gulp.task('default', function (cb) {
+gulp.task('default', function (done) {
     var prompts = [{
         name: 'appName',
         message: 'What is the name of your project?',
@@ -108,10 +78,10 @@ gulp.task('default', function (cb) {
         default: defaults.authorEmail
     }];
     //Ask
-    inquirer.prompt(prompts,
-        function (answers) {
-            answers.appNameSlug = _.slugify(answers.appName);
-            config.answers = answers;
-            runSequence('copy-files', ['templatize-app', 'templatize-project-files'], cb);
-        });
+  inquirer.prompt(prompts,
+    function (answers) {
+      answers.appNameSlug = _.slugify(answers.appName);
+      config.answers = answers;
+      runSequence('copy-files', cb);
+    });
 });
