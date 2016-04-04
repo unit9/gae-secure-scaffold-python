@@ -95,7 +95,7 @@ Generator is recommeded option. We provide several generators:
 
 * fe-static - very simple structure of files. No framework, pure structure.
 * fe-polymer - Polymer framework. WIP
-* fe-angular2 - TBD
+* fe-angular2 - Angular2 framework. WIP
 
 ## Scaffold Setup
 ----
