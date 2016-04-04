@@ -1,0 +1,24 @@
+{
+  "name": "polymer-p-page-landing",
+  "version": "0.0.1",
+  "description": "Polymer p-page-landing element",
+  "main": "p-page-landing.html",
+  "keywords": [
+    "polymer",
+    "element",
+    "p-page-landing"
+  ],
+  "authors": [
+    "Krzysztof Nowak <krzysztof.nowak@unit9.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

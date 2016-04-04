@@ -1,0 +1,14 @@
+script(src='../../../bower_components/page/page.js')
+link(rel='import', href='../../../bower_components/iron-pages/iron-pages.html')
+link(rel='import', href='../p-page-landing/p-page-landing.html')
+
+dom-module(id='p-pages')
+
+  template
+    style
+      include /elements/pages/p-pages/styles/p-pages.css
+  
+    iron-pages(attr-for-selected='data-page', selected='[[page]]')
+      p-page-landing.page(data-page='landing', page-context='{{pageContext}}')
+
+  script(src='scripts/p-pages.js')

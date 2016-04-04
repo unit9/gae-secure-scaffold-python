@@ -1,0 +1,14 @@
+//- script(src='../../bower_components/somecomponent/component.js')
+//- link(rel='../../bower_components/somecomponent/component.html')
+
+dom-module(id='p-app')
+
+  template
+    style
+      include /elements/p-app/styles/p-app.css
+
+    p-services
+
+    p-pages(page-context='{{pageContext}}')
+
+  script(src='scripts/p-app.js')

@@ -1,0 +1,26 @@
+{
+  "name": "polymer-p-pages",
+  "version": "0.0.1",
+  "description": "Polymer p-pages element",
+  "main": "p-pages.html",
+  "keywords": [
+    "polymer",
+    "element",
+    "p-pages"
+  ],
+  "authors": [
+    "Krzysztof Nowak <krzysztof.nowak@unit9.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "page": "~1.6.4",
+    "iron-pages": "PolymerElements/iron-pages#~1.0.5"
+  }
+}
