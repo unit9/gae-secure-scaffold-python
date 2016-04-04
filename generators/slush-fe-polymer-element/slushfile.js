@@ -4,7 +4,14 @@ var gulp = require('gulp'),
   rename = require('gulp-rename'),
   replace = require('gulp-replace'),
 
-  appendImport = false;
+  appendImport = true,
+
+  config = {
+    paths: {
+      dist: './src/app',
+      tpl: '/templates/element'
+    }
+  };
 
 gulp.task('default', function (cb) {
   var path, name, slipt, templatesPath, outputPath, bowerPath;
@@ -32,12 +39,12 @@ gulp.task('default', function (cb) {
   if (path.indexOf('/') === 0) {
     path = path.substring(1);
   }
-  outputPath = __dirname + '/../../app/elements/' + path;
+  outputPath = config.paths.dist + '/elements/' + path;
   bowerPath = new Array((path.match(/\//g) || []).length + 4).join('../') + 'bower_components';
   srcPath = new Array((path.match(/\//g) || []).length + 3).join('../');
   srcPath = srcPath.substring(0, srcPath.length - 1);
 
-  gulp.src('templates/element/**/*', {cwd: __dirname, dot: true})
+  gulp.src(__dirname + config.paths.tpl + '/**/*', {cwd: __dirname, dot: true})
     .pipe(template({
       path: path,
       name: name,
@@ -53,10 +60,10 @@ gulp.task('default', function (cb) {
     .pipe(gulp.dest(outputPath))
     .on('end', function () {
       if (appendImport) {
-        gulp.src(__dirname + '/../../app/elements/elements.jade')
+        gulp.src(config.paths.dist + '/elements/elements.jade')
           .pipe(replace('link(rel=\'import\' href=\'' + path + '/' + name + '.html\')\n', ''))
           .pipe(replace('// slush:elements', 'link(rel=\'import\', href=\'' + path + '/' + name + '.html\')\n// slush:elements'))
-          .pipe(gulp.dest(__dirname + '/../../app/elements/'))
+          .pipe(gulp.dest(config.paths.dist + '/elements/'))
           .on('end', function () {
             cb();
           });
