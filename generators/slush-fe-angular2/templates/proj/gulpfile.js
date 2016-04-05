@@ -1,3 +1,5 @@
+'use strict';
+
 var argv = require('yargs').argv,
   gulp = require('gulp'),
   runSequence = require('run-sequence'),
@@ -16,6 +18,8 @@ var argv = require('yargs').argv,
   crisper = require('gulp-crisper'),
   cleanCSS = require('gulp-clean-css'),
   uglify = require('gulp-uglify'),
+  webpack = require('webpack'),
+  WebpackServer = require('webpack-dev-server'),
   $ = require('gulp-load-plugins')(),
 
   // Actual config object to use. Set automatically from the configs below.
@@ -34,10 +38,13 @@ var argv = require('yargs').argv,
     dev: {
       paths: {
         dist: '.tmp'
-      }
+      },
+      webpack: './webpack.dev.config'
     },
     prod: {
-    }
+      paths: {},
+      webpack: './webpack.prod.config'
+    },
   };
 
 // Helper functions.
@@ -63,69 +70,69 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
-gulp.task('sass-watch', function (cb) {
-  gulp.src([config.paths.src + '/**/*.scss', '!' + config.paths.src + '/styles/**/_assets.scss'])
-    .pipe(changed(config.paths.dist + '/', {
-      extension: '.css'
-    }))
-    .pipe(sassLint())
-    .pipe(sassLint.format())
-    .pipe(sassLint.failOnError())
-    .pipe(sass())
-    .pipe(gulp.dest(config.paths.dist + '/'))
-    .on('data', function (file) {
-      console.log('Element style changed:', file.path);
-
-      var pathParts = file.path.split('/');
-
-      var elementName = pathParts[pathParts.length - 3];
-
-      var jadeFileName = elementName + '.jade';
-
-      var jadeDir = path.dirname(file.path).replace(__dirname + '/', '')
-          .replace(config.paths.dist, config.paths.src);
-
-      var jadeDestDir = path.join(config.paths.dist,
-        path.dirname(jadeDir.substring(config.paths.src.length + 1)));
-
-      var relatedJadeFile = path.join(jadeDir, '../', jadeFileName);
-
-      gulp.src(relatedJadeFile)
-        .pipe($.jade({
-          basedir: config.paths.dist
-        }))
-        .pipe(gulp.dest(jadeDestDir));
-    })
-    .on('end', function () {
-      cb();
-    });
-});
+// gulp.task('sass-watch', function (cb) {
+//   gulp.src([config.paths.src + '/**/*.scss', '!' + config.paths.src + '/styles/**/_assets.scss'])
+//     .pipe(changed(config.paths.dist + '/', {
+//       extension: '.css'
+//     }))
+//     .pipe(sassLint())
+//     .pipe(sassLint.format())
+//     .pipe(sassLint.failOnError())
+//     .pipe(sass())
+//     .pipe(gulp.dest(config.paths.dist + '/'))
+//     .on('data', function (file) {
+//       console.log('Element style changed:', file.path);
+//
+//       var pathParts = file.path.split('/');
+//
+//       var elementName = pathParts[pathParts.length - 3];
+//
+//       var jadeFileName = elementName + '.jade';
+//
+//       var jadeDir = path.dirname(file.path).replace(__dirname + '/', '')
+//           .replace(config.paths.dist, config.paths.src);
+//
+//       var jadeDestDir = path.join(config.paths.dist,
+//         path.dirname(jadeDir.substring(config.paths.src.length + 1)));
+//
+//       var relatedJadeFile = path.join(jadeDir, '../', jadeFileName);
+//
+//       gulp.src(relatedJadeFile)
+//         .pipe($.jade({
+//           basedir: config.paths.dist
+//         }))
+//         .pipe(gulp.dest(jadeDestDir));
+//     })
+//     .on('end', function () {
+//       cb();
+//     });
+// });
 
 // Simple coffee build task.
-gulp.task('coffee', function () {
-  return gulp.src(config.paths.src + '/**/*.coffee')
-    .pipe($.coffee())
-    .pipe(gulp.dest(config.paths.dist));
-});
-
-// Simple jade build task.
-gulp.task('jade', function () {
-  return gulp.src(config.paths.src + '/**/*.jade')
-    .pipe($.jade({
-      basedir: config.paths.dist
-    }))
-    .pipe(gulp.dest(config.paths.dist));
+gulp.task('typescript', function (cb) {
+  if (argv.dev) {
+    return gulp.src(config.paths.src + '/**/*.ts')
+      .pipe(gulp.dest(config.paths.dist + '/'));
+  } else {
+    cb();
+  }
 });
 
 // Simple task for coping files from source to target place
 gulp.task('copy', function (cb) {
-  runSequence('copy-bower', 'copy-images', cb);
+  runSequence('copy-bower', 'copy-html', 'copy-images', cb);
 });
 
 // Simple copying bower folder build task.
 gulp.task('copy-bower', function () {
   return gulp.src( './bower_components/**/*')
     .pipe(gulp.dest(config.paths.dist + '/bower_components'));
+});
+
+// Simple html task.
+gulp.task('copy-html', function () {
+  return gulp.src(config.paths.src + '/**/*.html')
+    .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
 // Simple copying images build task.
@@ -137,7 +144,7 @@ gulp.task('copy-images', function () {
 // Simple post-build optimising task.
 gulp.task('post-optimise', function (cb) {
   if (!argv.dev) {
-    runSequence('vulcanize', 'minify-js', cb);
+    runSequence('minify-js', cb);
   } else {
     cb();
   }
@@ -166,21 +173,12 @@ gulp.task('minify-css', function() {
     .pipe(gulp.dest(config.paths.dist));
 });
 
-// Simple vulcanizing and crisping task.
-gulp.task('vulcanize', function () {
-  return gulp.src(config.paths.dist + '/elements/elements.html')
-    .pipe(vulcanize({
-      inlineScripts: true
-    }))
-    .pipe(crisper())
-    .pipe(gulp.dest(config.paths.dist + '/elements'));
-});
 
 // The main build task. Its job is to build all sources and output a full build.
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', 'sprite', 'sass', 'pre-optimise', ['coffee', 'jade', 'copy'], 'post-optimise',  cb);
+  runSequence('clean', 'sprite', 'sass', 'pre-optimise', ['typescript', 'copy'], 'post-optimise',  cb);
 });
 
 // This task serves the output using a simple HTTP server.
@@ -192,7 +190,9 @@ gulp.task('serve', function () {
       baseDir: config.paths.dist,
       middleware: [historyApiFallback()],
       routes: argv.dev ? {
-        '/bower_components': 'bower_components'
+        '/bower_components': 'bower_components',
+        '/node_modules': 'node_modules',
+        '/angular2': 'node_modules/angular2'
       } : {}
     }
   });
@@ -205,9 +205,9 @@ gulp.task('watch', function (cb) {
 
 // Simple task for watching Front End files
 gulp.task('watch-fe', function () {
-  gulp.watch(config.paths.src + '/**/*.jade', ['jade']);
-  gulp.watch(config.paths.src + '/**/*.coffee', ['coffee']);
-  gulp.watch(config.paths.src + '/**/*.scss', ['sass-watch']);
+  gulp.watch(config.paths.src + '/**/*.html', ['copy-html']);
+  gulp.watch(config.paths.src + '/**/*.ts', ['typescript']);
+  gulp.watch(config.paths.src + '/**/*.scss', ['sass']);
   
   gulp.watch(config.paths.dist + '/**/*.css').on('change', browserSync.reload);
   gulp.watch(config.paths.dist + '/**/*.js').on('change', browserSync.reload);
