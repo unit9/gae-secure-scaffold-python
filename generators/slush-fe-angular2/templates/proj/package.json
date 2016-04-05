@@ -1,7 +1,7 @@
 {
-  "name": "1",
+  "name": "<%= appNameSlug %>",
   "version": "0.0.1",
-  "author": "2 <3>",
+  "author": "<%= authorName %> <<%= authorEmail %>>",
   "scripts": {
     "dev": "./util.sh -c && ./util.sh -b && gulp build && gulp dev & ./util.sh -s",
     "prod": "./util.sh -c && ./util.sh -b && gulp"
