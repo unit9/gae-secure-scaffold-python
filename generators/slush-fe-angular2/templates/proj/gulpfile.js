@@ -70,44 +70,6 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(config.paths.dist + '/'));
 });
 
-// gulp.task('sass-watch', function (cb) {
-//   gulp.src([config.paths.src + '/**/*.scss', '!' + config.paths.src + '/styles/**/_assets.scss'])
-//     .pipe(changed(config.paths.dist + '/', {
-//       extension: '.css'
-//     }))
-//     .pipe(sassLint())
-//     .pipe(sassLint.format())
-//     .pipe(sassLint.failOnError())
-//     .pipe(sass())
-//     .pipe(gulp.dest(config.paths.dist + '/'))
-//     .on('data', function (file) {
-//       console.log('Element style changed:', file.path);
-//
-//       var pathParts = file.path.split('/');
-//
-//       var elementName = pathParts[pathParts.length - 3];
-//
-//       var jadeFileName = elementName + '.jade';
-//
-//       var jadeDir = path.dirname(file.path).replace(__dirname + '/', '')
-//           .replace(config.paths.dist, config.paths.src);
-//
-//       var jadeDestDir = path.join(config.paths.dist,
-//         path.dirname(jadeDir.substring(config.paths.src.length + 1)));
-//
-//       var relatedJadeFile = path.join(jadeDir, '../', jadeFileName);
-//
-//       gulp.src(relatedJadeFile)
-//         .pipe($.jade({
-//           basedir: config.paths.dist
-//         }))
-//         .pipe(gulp.dest(jadeDestDir));
-//     })
-//     .on('end', function () {
-//       cb();
-//     });
-// });
-
 // Simple coffee build task.
 gulp.task('typescript', function (cb) {
   if (argv.dev) {
