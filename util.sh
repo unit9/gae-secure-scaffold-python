@@ -22,6 +22,7 @@ get_or_die() {
 get_or_die "awk" "AWK"
 get_or_die "cat" "CAT"
 get_or_die "cp" "CP"
+get_or_die "curl" "CURL"
 get_or_die "cut" "CUT"
 get_or_die "dirname" "DIRNAME"
 get_or_die "find" "FIND"
@@ -31,6 +32,7 @@ get_or_die "python" "PYTHON"
 get_or_die "rm" "RM"
 get_or_die "sed" "SED"
 get_or_die "tr" "TR"
+get_or_die "unzip" "UNZIP"
 get_or_die "wc" "WC"
 
 UTIL_SH_RELATIVE_DIR=`$DIRNAME ${0}`
@@ -52,6 +54,7 @@ usage() {
   echo "    -b           Build" 1>&2
   echo "    -s           Run this in dev_appserver" 1>&2
   echo "    -p <appid>   Push to appengine with specified application id" 1>&2
+  echo "    -u <version> Update AppEngine SDK to specified version" 1>&2
 }
 
 compute_version_string() {
@@ -121,7 +124,30 @@ deploy() {
   fi
 }
 
-args=`getopt hbscp: $*`
+update_sdk() {
+  SDK_VERSION=$1; shift
+  SDK_URL="https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${SDK_VERSION}.zip"
+  SDK_ZIP="/tmp/google_appengine_${SDK_VERSION}.zip"
+  if [[ ! -f $SDK_ZIP ]] ; then
+    if ! $CURL -sSfL -o $SDK_ZIP $SDK_URL ; then
+      die "Could not download: ${SDK_URL}"
+    fi
+  fi
+  if [[ -d $APPENGINE_BASE_DIR ]] ; then
+    rm -rf $APPENGINE_BASE_DIR
+  fi
+  # XXX: the zip already contains the folder named "google_appengine".
+  # Using $HOME feels a bit wrong, but I can't see a better way here.
+  $UNZIP -q -d $HOME $SDK_ZIP
+  if [[ ! -d $APPENGINE_BASE_DIR ]] ; then
+    die "Failed to extract the SDK directory"
+  fi
+  if [[ ! -x $APPCFG ]] ; then
+    die "Failed to extract the SDK files"
+  fi
+}
+
+args=`getopt hbscp:u: $*`
 
 if [[ $? -ne 0 ]] ; then
   usage
@@ -135,6 +161,7 @@ while [[ $# -ne 0 ]] ; do
     -b) build; shift;;
     -s) serve; shift;;
     -p) deploy $2; shift; shift ;;
+    -u) update_sdk $2; shift; shift ;;
     -c) clean_output_dir; shift;;
     --) shift; break;;
     *) die "unknown option \"$1\""; usage;;
