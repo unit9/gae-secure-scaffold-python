@@ -1,7 +1,6 @@
 {
-  "name": "<%= appNameSlug %>",
+  "name": "gae-scaffold-with-angular2",
   "version": "0.0.1",
-  "author": "<%= authorName %> <<%= authorEmail %>>",
   "scripts": {
     "dev": "./util.sh -c && ./util.sh -b && gulp build && gulp dev & ./util.sh -s",
     "prod": "./util.sh -c && ./util.sh -b && gulp",
