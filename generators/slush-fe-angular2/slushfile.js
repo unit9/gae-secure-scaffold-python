@@ -57,8 +57,7 @@ var defaults = (function () {
 
 // Simple task for generating project. Generates project main files
 gulp.task('templatize-project-files', function (cb) {
-  gulp.src([__dirname + config.paths.proj + '/**/*.*'])
-    .pipe(template(config.answers))
+  gulp.src([__dirname + config.paths.proj + '/**'])
     .pipe(rename(function (file) {
       if (file.basename[0] === '*') {
         file.basename = '.' + file.basename.slice(1);
@@ -71,16 +70,9 @@ gulp.task('templatize-project-files', function (cb) {
     });
 });
 
-// Simple task for generating project. Copies binary files
-gulp.task('copy-files', function () {
-  return gulp.src([__dirname + config.paths.app + '/**/*.png'])
-    .pipe(gulp.dest(config.paths.dist + '/'));
-});
-
 // Simple task for generating project. Generates project content files
 gulp.task('templatize-app', function (cb) {
-  gulp.src([__dirname + config.paths.app + '/**', '!' + __dirname + config.paths.app + '/**/*.png'])
-    .pipe(template(config.answers))
+  gulp.src([__dirname + config.paths.app + '/**'])
     .pipe(rename(function (file) {
       if (file.basename[0] === '*') {
         file.basename = '.' + file.basename.slice(1);
@@ -113,6 +105,6 @@ gulp.task('default', function (cb) {
     function (answers) {
       answers.appNameSlug = _.slugify(answers.appName);
       config.answers = answers;
-      runSequence('copy-files', ['templatize-app', 'templatize-project-files'], cb);
+      runSequence(['templatize-app', 'templatize-project-files'], cb);
     });
 });
