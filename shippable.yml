@@ -1,0 +1,20 @@
+language: python
+build_image: shippableimages/ubuntu1404_python
+python:
+- 2.7
+
+before_install:
+- sudo apt-get update
+- sudo apt-get install --yes curl unzip python-imaging
+- sudo pip install unittest2
+- ./util.sh -u 1.9.35
+
+before_script:
+- mkdir -p shippable/testresults
+- mkdir -p shippable/codecoverage
+
+script:
+- ./run_tests.py ~/google_appengine src
+
+# after_success:
+# - ./util.sh -p appid
