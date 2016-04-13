@@ -2,7 +2,7 @@ import {Component} from 'angular2/core';
 
 @Component({
   selector: 'sd-toolbar',
-  templateUrl: './app/components/toolbar.component.html',
-  styleUrls: ['./app/components/toolbar.component.css']
+  templateUrl: './ui/toolbar.component.html',
+  styleUrls: ['./ui/toolbar.component.css']
 })
 export class ToolbarComponent {}

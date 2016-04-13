@@ -1,15 +1,15 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-import {NavbarComponent} from './navbar.component';
-import {ToolbarComponent} from './toolbar.component';
-import {HomeComponent} from '../../home/components/home.component';
-import {AboutComponent} from '../../about/components/about.component';
-import {NameListService} from '../../shared/services/name-list.service';
+import {NavbarComponent} from '../../ui/navbar.component';
+import {ToolbarComponent} from '../../ui/toolbar.component';
+import {HomeComponent} from '../../pages/home/home.component';
+import {AboutComponent} from '../../pages/about/about.component';
+import {NameListService} from '../../services/name-list.service';
 
 @Component({
   selector: 'sd-app',
   viewProviders: [NameListService],
-  templateUrl: './app/components/app.component.html',
+  templateUrl: './app/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 @RouteConfig([
