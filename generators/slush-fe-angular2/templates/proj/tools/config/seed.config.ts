@@ -31,10 +31,10 @@ export class SeedConfig {
   SEED_TASKS_DIR       = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'seed');
   DOCS_DEST            = 'docs';
   DIST_DIR             = 'dist';
-  DEV_DEST             = `${this.DIST_DIR}/dev`;
-  PROD_DEST            = `${this.DIST_DIR}/prod`;
-  TMP_DIR              = `${this.DIST_DIR}/tmp`;
-  APP_DEST             = `${this.DIST_DIR}/${this.ENV}`;
+  DEV_DEST             = `.tmp/static`;//`${this.DIST_DIR}/dev`;
+  PROD_DEST            = `out/static`;//`${this.DIST_DIR}/prod`;
+  TMP_DIR              = `.tmp/tmp`;//`${this.DIST_DIR}/tmp`;
+  APP_DEST             = this.ENV === 'dev' ? `${this.DEV_DEST}` : `${this.PROD_DEST}`;//`${this.DIST_DIR}/${this.ENV}`;
   CSS_DEST             = `${this.APP_DEST}/css`;
   JS_DEST              = `${this.APP_DEST}/js`;
   APP_ROOT             = this.ENV === 'dev' ? `${this.APP_BASE}${this.APP_DEST}/` : `${this.APP_BASE}`;
