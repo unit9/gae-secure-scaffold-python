@@ -10,8 +10,6 @@ var gulp = require('gulp'),
   conflict = require('gulp-conflict'),
   path = require('path'),
 
-
-
   config = {
     paths: {
       dist: './src/app',
