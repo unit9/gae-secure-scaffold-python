@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
-import {NameListService} from '../../services/name-list.service';
+import {NameListService} from '../../services/c-name-list';
 
 @Component({
   selector: 'c-home',
