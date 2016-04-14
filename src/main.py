@@ -25,12 +25,15 @@ import handlers
 from examples import example_handlers
 
 from api import api_handlers
+from base import validators
 
 # These should all inherit from base.handlers.BaseHandler
-_UNAUTHENTICATED_ROUTES = [#('/', handlers.RootHandler),
-                           ('/api/health', api_handlers.ApiHandler),
+_UNAUTHENTICATED_ROUTES = [('/api/health', api_handlers.ApiHandler),
                            ('/examples/xss', example_handlers.XssHandler),
                            ('/examples/xssi', example_handlers.XssiHandler)]
+
+# There should be only validators.MainPage to secure index.html
+_AUTHENTICATED_ROUTES = [('/.*', validators.MainPage), ]
 
 # These should all inherit from base.handlers.BaseAjaxHandler
 _UNAUTHENTICATED_AJAX_ROUTES = [('/csp', handlers.CspHandler)]
@@ -128,6 +131,6 @@ _CONFIG = {
 app = webapp2.WSGIApplication(
     routes=(_UNAUTHENTICATED_ROUTES + _UNAUTHENTICATED_AJAX_ROUTES +
             _USER_ROUTES + _AJAX_ROUTES + _ADMIN_ROUTES + _ADMIN_AJAX_ROUTES +
-            _CRON_ROUTES + _TASK_ROUTES),
+            _CRON_ROUTES + _TASK_ROUTES + _AUTHENTICATED_ROUTES),
     debug=base.constants.DEBUG,
     config=_CONFIG)
