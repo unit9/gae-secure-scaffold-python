@@ -92,7 +92,7 @@ gulp.task('default', function (cb) {
 
 //Additional generator task. Generates component
 gulp.task('component', function (cb) {
-  var path, name, split, outputPath, bowerPath, srcPath, camelName, type;
+  var path, name, split, outputPath, bowerPath, srcPath, nameBase, camelName;
 
   // Validate arguments.
   if (gulp.args.length !== 1) {
@@ -108,53 +108,44 @@ gulp.task('component', function (cb) {
     path = path.substring(0, split);
   }
 
-  // if (name.indexOf('-') === -1) {
-  //   return console.warn('Invalid element name: \'' + name + '\'. Elements need to contain a dash (\'-\').');
-  // }
+  if (name.indexOf('-') === -1) {
+    return console.warn('Invalid element name: \'' + name + '\'. Elements need to contain a dash (\'-\').');
+  }
 
-  type = '/ui';
+  nameBase = name.substring(1 + name.indexOf('-'));
 
   // Resolve paths.
-  path = path + '/' + name;
+  path = path + '/' + nameBase;
   if (path.indexOf('/') === 0) {
     path = path.substring(1);
   }
-  outputPath = config.paths.dist + type + '/' + path;
+  outputPath = config.paths.dist + '/' + path;
   bowerPath = new Array((path.match(/\//g) || []).length + 4).join('../') + 'bower_components';
   srcPath = new Array((path.match(/\//g) || []).length + 3).join('../');
   srcPath = srcPath.substring(0, srcPath.length - 1);
-  camelName = _.capitalize(name);
+  camelName = _.capitalize(nameBase);
 
-  gulp.src(__dirname + config.paths.tpl + type + '/**/*.*', {cwd: __dirname, dot: true})
+  gulp.src(__dirname + config.paths.tpl + '/**/*.*', {cwd: __dirname, dot: true})
     .pipe(template({
       path: path,
       name: name,
+      nameBase: nameBase,
       camelName: camelName,
       bowerPath: bowerPath,
       srcPath: srcPath
     }))
     .pipe(rename({
-      basename: name,
-      prefix: 'c-'
+      basename: name
     }))
     .pipe(conflict(outputPath))
     .pipe(gulp.dest(outputPath))
     .on('end', function () {
-      // if (config.appendImport) {
-      //   gulp.src(config.paths.dist + '/elements/elements.jade')
-      //     .pipe(replace('link(rel=\'import\' href=\'' + path + '/' + name + '.html\')\n', ''))
-      //     .pipe(replace('// slush:elements', 'link(rel=\'import\', href=\'' + path + '/' + name + '.html\')\n// slush:elements'))
-      //     .pipe(gulp.dest(config.paths.dist + '/elements/'))
-      //     .on('end', function () {
-      //       cb();
-      //     });
-      // } else {
-        console.log('**********************************');
-        console.log('Please append the import manually:');
-        console.log('link(rel=\'import\', href=\'/elements/' + path + '/' + name + '.html\')');
-        console.log('**********************************');
-        cb();
-      // }
+      console.log('**********************************');
+      console.log('Please append the import manually:');
+      console.log('import {' + camelName + 'Component} from \'../' + path + '/' + name + '\';');
+      console.log('And add ' + camelName + 'Component to directives');
+      console.log('**********************************');
+      cb();
     })
     .resume();
 });
