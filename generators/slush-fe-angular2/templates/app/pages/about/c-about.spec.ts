@@ -7,7 +7,7 @@ import {
 } from 'angular2/testing';
 import {Component} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
-import {AboutComponent} from './about.component';
+import {AboutComponent} from './c-about';
 
 export function main() {
   describe('About component', () => {
@@ -26,6 +26,6 @@ export function main() {
 @Component({
   selector: 'test-cmp',
   directives: [AboutComponent],
-  template: '<sd-about></sd-about>'
+  template: '<c-about></c-about>'
 })
 class TestComponent {}

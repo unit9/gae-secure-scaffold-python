@@ -7,8 +7,8 @@ import {
 } from 'angular2/testing';
 import {Component} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
-import {HomeComponent} from './home.component';
-import {NameListService} from '../../shared/services/name-list.service';
+import {HomeComponent} from './c-home';
+import {NameListService} from '../../shared/services/c-name-list';
 
 
 export function main() {
@@ -45,7 +45,7 @@ export function main() {
 @Component({
   providers: [NameListService],
   selector: 'test-cmp',
-  template: '<sd-home></sd-home>',
+  template: '<c-home></c-home>',
   directives: [HomeComponent]
 })
 class TestComponent {}

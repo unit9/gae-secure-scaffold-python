@@ -17,7 +17,7 @@ var gulp = require('gulp'),
       dist: './src/app',
       app: '/templates/app',
       proj: '/templates/proj',
-      tpl: '/templates/element'
+      tpl: '/templates/component'
     },
     appendImport: true
   };
@@ -88,4 +88,73 @@ gulp.task('templatize-app', function (cb) {
 //Default generator task. Generates project scaffold
 gulp.task('default', function (cb) {
   runSequence(['templatize-app', 'templatize-project-files'], cb);
+});
+
+//Additional generator task. Generates component
+gulp.task('component', function (cb) {
+  var path, name, split, outputPath, bowerPath, srcPath, camelName, type;
+
+  // Validate arguments.
+  if (gulp.args.length !== 1) {
+    return console.warn('Invalid number of arguments. Usage: slush fe-angular2:component path/element-name');
+  }
+
+  path = gulp.args[0];
+  if ((split = path.lastIndexOf('/')) === -1) {
+    name = path;
+    path = '';
+  } else {
+    name = path.substring(split + 1);
+    path = path.substring(0, split);
+  }
+
+  // if (name.indexOf('-') === -1) {
+  //   return console.warn('Invalid element name: \'' + name + '\'. Elements need to contain a dash (\'-\').');
+  // }
+
+  type = '/ui';
+
+  // Resolve paths.
+  path = path + '/' + name;
+  if (path.indexOf('/') === 0) {
+    path = path.substring(1);
+  }
+  outputPath = config.paths.dist + type + '/' + path;
+  bowerPath = new Array((path.match(/\//g) || []).length + 4).join('../') + 'bower_components';
+  srcPath = new Array((path.match(/\//g) || []).length + 3).join('../');
+  srcPath = srcPath.substring(0, srcPath.length - 1);
+  camelName = _.capitalize(name);
+
+  gulp.src(__dirname + config.paths.tpl + type + '/**/*.*', {cwd: __dirname, dot: true})
+    .pipe(template({
+      path: path,
+      name: name,
+      camelName: camelName,
+      bowerPath: bowerPath,
+      srcPath: srcPath
+    }))
+    .pipe(rename({
+      basename: name,
+      prefix: 'c-'
+    }))
+    .pipe(conflict(outputPath))
+    .pipe(gulp.dest(outputPath))
+    .on('end', function () {
+      // if (config.appendImport) {
+      //   gulp.src(config.paths.dist + '/elements/elements.jade')
+      //     .pipe(replace('link(rel=\'import\' href=\'' + path + '/' + name + '.html\')\n', ''))
+      //     .pipe(replace('// slush:elements', 'link(rel=\'import\', href=\'' + path + '/' + name + '.html\')\n// slush:elements'))
+      //     .pipe(gulp.dest(config.paths.dist + '/elements/'))
+      //     .on('end', function () {
+      //       cb();
+      //     });
+      // } else {
+        console.log('**********************************');
+        console.log('Please append the import manually:');
+        console.log('link(rel=\'import\', href=\'/elements/' + path + '/' + name + '.html\')');
+        console.log('**********************************');
+        cb();
+      // }
+    })
+    .resume();
 });
