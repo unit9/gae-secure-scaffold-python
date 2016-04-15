@@ -1,0 +1,4 @@
+- src: maciejzasada.gae
+  gae_action: 'install'
+  gae_language: 'python'
+  gae_install_dir: '/home/vagrant'

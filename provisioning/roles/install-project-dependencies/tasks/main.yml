@@ -5,4 +5,4 @@
     - slush
 
 - name: install python requirements
-  pip: name=/vagrant/src/requirements.txt
+  pip: requirements=/vagrant/src/requirements.txt
