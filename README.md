@@ -86,12 +86,20 @@ your application.
 #### Log in into Vagrant
 
 * for Mac OS:  
-1. `l$ vagrant ssh`
+1. `$ vagrant ssh`
 
 * for Windows (based on <http://www.sitepoint.com/getting-started-vagrant-windows/>): 
-1. `generate private key using PuttyGen`
+1. generate private key using PuttyGen   
+  1.1 load private key from [project_dir]/.vagrant/machines/default/virtualbox/private_key  
+  1.2 save as putty private key (save with .ppk) extension  
 
-1. `create connection in Putty`
+1. create connection in Putty
+  1.1 create new session
+    * host: 127.0.0.1 
+    * port: 2222  
+    * from category (on left) choose Connection -> SSH -> Auth
+    * set `Private key file for authentication:` to .ppk file generated from PuttyGen
+    * Save and open 
 
 1. connect using login `vagrant`
 
