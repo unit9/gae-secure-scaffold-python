@@ -6,7 +6,3 @@
 
 - name: install python requirements
   pip: requirements=/vagrant/src/requirements.txt
-
-- name: install slush generators
-  sudo: yes
-  shell: cd /vagrant && ./provisioning/install-slush-generators.sh

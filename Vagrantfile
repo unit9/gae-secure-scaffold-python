@@ -20,7 +20,7 @@ end
 
 # Begin configuration.
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  
+
   # Set the VM BOX to latest Ubuntu.
   config.vm.box = "ubuntu/trusty64"
 
@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3001, host: 3001
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 8000, host: 8000
-  
+
   # Give the box a bit more power.
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
@@ -53,6 +53,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run Ansible to provision the Vagrant guest.
   config.vm.provision :guest_ansible do |ansible|
     ansible.playbook = "provisioning/playbook.yml"
+  end
+
+  # Install all slush generators
+  config.vm.provision :shell do |shell|
+    shell.path = "provisioning/install-slush-generators.sh"
   end
 
 end
