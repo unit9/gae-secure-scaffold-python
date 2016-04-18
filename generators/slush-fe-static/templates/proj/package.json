@@ -3,8 +3,13 @@
   "version": "0.0.1",
   "author": "<%= authorName %> <<%= authorEmail %>>",
   "scripts": {
-    "dev": "./util.sh -c && ./util.sh -b && gulp build && gulp dev & ./util.sh -s",
-    "prod": "./util.sh -c && ./util.sh -b && gulp"
+    "dev": "npm-run-all serv:c serv:b front:b -p front:s serv:s",
+    "prod": "npm-run-all serv:c serv:b gulp",
+    "serv:c": "./util.sh -c",
+    "serv:b": "./util.sh -b",
+    "front:b": "gulp build",
+    "front:s": "gulp dev",
+    "serv:s": "./util.sh -s"
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",
@@ -20,6 +25,7 @@
     "gulp-sass-lint": "^1.1.1",
     "gulp-shell": "^0.5.2",
     "gulp.spritesmith": "^6.2.1",
+    "npm-run-all": "^1.7.0",
     "run-sequence": "^1.1.5",
     "yargs": "^4.2.0"
   }
