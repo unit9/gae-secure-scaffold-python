@@ -159,3 +159,6 @@ Right now `index.html` file has provided as static file from
 `out/static/index.html`. If you decide to generate this from template, uncomment
 routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And
 change rule from app.yaml.base (line 42)
+
+Windows users! It may happen that Windows Os will mess new line chars. You can fix it  setting in IDE 'linux style line endings' or correct them in command line:   
+`sed -i -e s/\r$//' [file_name]
