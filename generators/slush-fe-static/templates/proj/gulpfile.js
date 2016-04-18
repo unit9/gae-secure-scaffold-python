@@ -86,7 +86,7 @@ gulp.task('copy-images', function () {
 // This task should check whether we're building a dev or prod version and
 // adjust settings accordingly.
 gulp.task('build', function (cb) {
-  runSequence('clean', ['coffee', 'jade', 'sprite', 'sass', 'copy'], cb);
+  runSequence('clean', 'sprite', ['coffee', 'jade', 'sass', 'copy'], cb);
 });
 
 // This task serves the output using a simple HTTP server.

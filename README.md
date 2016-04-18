@@ -160,5 +160,11 @@ Right now `index.html` file has provided as static file from
 routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And
 change rule from app.yaml.base (line 42)
 
-Windows users! It may happen that Windows Os will mess new line chars. You can fix it  setting in IDE 'linux style line endings' or correct them in command line:   
-`sed -i -e s/\r$//' [file_name]
+Windows users! It may happen that Windows Os will mess new line chars. You can 
+fix it  setting in IDE 'linux style line endings' or correct them in command 
+line:
+
+1. install dos2unix `sudo apt-get install dos2unix` 
+
+1. run `find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix` where 4 is number
+of processes run simultaneously.
