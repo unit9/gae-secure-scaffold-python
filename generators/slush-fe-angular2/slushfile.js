@@ -8,17 +8,14 @@ var gulp = require('gulp'),
   inquirer = require('inquirer'),
   runSequence = require('run-sequence'),
   conflict = require('gulp-conflict'),
-  replace = require('gulp-replace'),
   path = require('path'),
-
-
 
   config = {
     paths: {
       dist: './src/app',
       app: '/templates/app',
       proj: '/templates/proj',
-      tpl: '/templates/element'
+      tpl: '/templates/component'
     },
     appendImport: true
   };
@@ -58,8 +55,7 @@ var defaults = (function () {
 
 // Simple task for generating project. Generates project main files
 gulp.task('templatize-project-files', function (cb) {
-  gulp.src([__dirname + config.paths.proj + '/**/*.*'])
-    .pipe(template(config.answers))
+  gulp.src([__dirname + config.paths.proj + '/**'])
     .pipe(rename(function (file) {
       if (file.basename[0] === '*') {
         file.basename = '.' + file.basename.slice(1);
@@ -72,16 +68,9 @@ gulp.task('templatize-project-files', function (cb) {
     });
 });
 
-// Simple task for generating project. Copies binary files
-gulp.task('copy-files', function () {
-  return gulp.src([__dirname + config.paths.app + '/**/*.png'])
-    .pipe(gulp.dest(config.paths.dist + '/'));
-});
-
 // Simple task for generating project. Generates project content files
 gulp.task('templatize-app', function (cb) {
-  gulp.src([__dirname + config.paths.app + '/**', '!' + __dirname + config.paths.app + '/**/*.png'])
-    .pipe(template(config.answers))
+  gulp.src([__dirname + config.paths.app + '/**'])
     .pipe(rename(function (file) {
       if (file.basename[0] === '*') {
         file.basename = '.' + file.basename.slice(1);
@@ -96,35 +85,16 @@ gulp.task('templatize-app', function (cb) {
 
 //Default generator task. Generates project scaffold
 gulp.task('default', function (cb) {
-  var prompts = [{
-    name: 'appName',
-    message: 'What is the name of your project?',
-    default: defaults.appName
-  }, {
-    name: 'authorName',
-    message: 'What is the author name?',
-    default: defaults.authorName
-  }, {
-    name: 'authorEmail',
-    message: 'What is the author email?',
-    default: defaults.authorEmail
-  }];
-  //Ask
-  inquirer.prompt(prompts,
-    function (answers) {
-      answers.appNameSlug = _.slugify(answers.appName);
-      config.answers = answers;
-      runSequence('copy-files', ['templatize-app', 'templatize-project-files'], cb);
-    });
+  runSequence(['templatize-app', 'templatize-project-files'], cb);
 });
 
 //Additional generator task. Generates component
-gulp.task('element', function (cb) {
-  var path, name, split, outputPath, bowerPath, srcPath;
+gulp.task('component', function (cb) {
+  var path, name, split, outputPath, bowerPath, srcPath, nameBase, camelName;
 
   // Validate arguments.
   if (gulp.args.length !== 1) {
-    return console.warn('Invalid number of arguments. Usage: slush fe-polymer:element path/element-name');
+    return console.warn('Invalid number of arguments. Usage: slush fe-angular2:component path/element-name');
   }
 
   path = gulp.args[0];
@@ -140,46 +110,40 @@ gulp.task('element', function (cb) {
     return console.warn('Invalid element name: \'' + name + '\'. Elements need to contain a dash (\'-\').');
   }
 
+  nameBase = name.substring(1 + name.indexOf('-'));
+
   // Resolve paths.
-  path = path + '/' + name;
+  path = path + '/' + nameBase;
   if (path.indexOf('/') === 0) {
     path = path.substring(1);
   }
-  outputPath = config.paths.dist + '/elements/' + path;
+  outputPath = config.paths.dist + '/' + path;
   bowerPath = new Array((path.match(/\//g) || []).length + 4).join('../') + 'bower_components';
   srcPath = new Array((path.match(/\//g) || []).length + 3).join('../');
   srcPath = srcPath.substring(0, srcPath.length - 1);
+  camelName = _.capitalize(nameBase);
 
-  gulp.src(__dirname + config.paths.tpl + '/**/*', {cwd: __dirname, dot: true})
+  gulp.src(__dirname + config.paths.tpl + '/**/*.*', {cwd: __dirname, dot: true})
     .pipe(template({
       path: path,
       name: name,
+      nameBase: nameBase,
+      camelName: camelName,
       bowerPath: bowerPath,
       srcPath: srcPath
     }))
-    .pipe(rename(function (path) {
-      if (path.basename === 'element') {
-        path.basename = name;
-      }
+    .pipe(rename({
+      basename: name
     }))
     .pipe(conflict(outputPath))
     .pipe(gulp.dest(outputPath))
     .on('end', function () {
-      if (config.appendImport) {
-        gulp.src(config.paths.dist + '/elements/elements.jade')
-          .pipe(replace('link(rel=\'import\' href=\'' + path + '/' + name + '.html\')\n', ''))
-          .pipe(replace('// slush:elements', 'link(rel=\'import\', href=\'' + path + '/' + name + '.html\')\n// slush:elements'))
-          .pipe(gulp.dest(config.paths.dist + '/elements/'))
-          .on('end', function () {
-            cb();
-          });
-      } else {
-        console.log('**********************************');
-        console.log('Please append the import manually:');
-        console.log('link(rel=\'import\', href=\'/elements/' + path + '/' + name + '.html\')');
-        console.log('**********************************');
-        cb();
-      }
+      console.log('**********************************');
+      console.log('Please append the import manually:');
+      console.log('import {' + camelName + 'Component} from \'../' + path + '/' + name + '\';');
+      console.log('And add ' + camelName + 'Component to directives');
+      console.log('**********************************');
+      cb();
     })
     .resume();
 });

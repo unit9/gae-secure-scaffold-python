@@ -27,8 +27,7 @@ var argv = require('yargs').argv,
     common: {
       paths: {
         src: 'src/app',
-        dist: 'out/static',
-        tpl: 'out/templates'
+        dist: 'out/static'
       }
     },
     dev: {
