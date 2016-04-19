@@ -38,12 +38,6 @@ handlers:
           static_files: static/\1
           upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
 
-# video files
-        - url: /(.*\.mp4)
-          mime_type: video/mp4
-          static_files: static/\1
-          upload: static/(.*\.mp4)
-
 # All URLs for Back End logic
         - url: /.*
           script: main.app
