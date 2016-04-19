@@ -76,7 +76,7 @@ class MainPage(handlers.BaseHandler):
         is_authorized = auth_option[_auth_type]
 
         if is_authorized:
-            return self.serve_index(path)
+            return self.render(path)
 
         if _auth_type == 'basic_auth':
             self.response.headers.add('WWW-Authenticate',
@@ -85,9 +85,6 @@ class MainPage(handlers.BaseHandler):
             return
 
         return self.redirect(users.create_logout_url('/'))
-
-    def serve_index(self, path):
-        self.render(path)
 
     def get(self):
         parsed_url = urlparse(self.request.url)
