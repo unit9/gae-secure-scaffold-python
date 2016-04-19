@@ -25,7 +25,6 @@ import handlers
 from examples import example_handlers
 
 from api import api_handlers
-from base import validators
 
 # These should all inherit from base.handlers.BaseHandler
 _UNAUTHENTICATED_ROUTES = [('/api/health', api_handlers.ApiHandler),
@@ -33,7 +32,7 @@ _UNAUTHENTICATED_ROUTES = [('/api/health', api_handlers.ApiHandler),
                            ('/examples/xssi', example_handlers.XssiHandler)]
 
 # There should be only validators.MainPage to secure index.html
-_AUTHENTICATED_ROUTES = [('/.*', validators.MainPage), ]
+_AUTHENTICATED_ROUTES = [('/.*', handlers.MainPage), ]
 
 # These should all inherit from base.handlers.BaseAjaxHandler
 _UNAUTHENTICATED_AJAX_ROUTES = [('/csp', handlers.CspHandler)]

@@ -42,7 +42,7 @@ class CspHandler(handlers.BaseAjaxHandler):
 class MainPage(handlers.BaseHandler):
     """Serves static index.html with chosen authorization method
 
-    Avaible methods:
+    Avaible authorization methods:
         * basic_auth (default)
         * google
 

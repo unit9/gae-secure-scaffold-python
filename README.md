@@ -1,5 +1,16 @@
 # Secure GAE Scaffold (UNIT9)
 
+## Authorization
+
+There are two ways of authoriazation:
+* via gogole 
+* basic auth  
+
+## REMEMBER
+* [basic_auth] Update ADMIN_DATA to set login name and password in src/base/constants.py
+* [google_method] You need to uncomment `login: required` in app.yaml.base
+* [google_method] To update email white list add an email to file: src/base/constants.py
+
 ## Introduction
 ----
 
