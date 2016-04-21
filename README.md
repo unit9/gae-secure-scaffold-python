@@ -7,9 +7,7 @@ There are two ways of authoriazation:
 * basic auth  
 
 ## REMEMBER
-* [basic_auth] Update ADMIN_DATA to set login name and password in src/base/constants.py
-* [google_method] You need to uncomment `login: required` in app.yaml.base
-* [google_method] To update email white list add an email to file: src/base/constants.py
+* You need create a file envs.sh basing on envs.sh.example to set up (admin login and password) or whitelist.
 
 ## Introduction
 ----

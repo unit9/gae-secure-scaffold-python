@@ -9,3 +9,4 @@ bower_components/
 vagrant_ansible_inventory_default
 playbook.retry
 .tmp
+envs.sh

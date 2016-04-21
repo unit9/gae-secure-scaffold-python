@@ -11,14 +11,15 @@
 #     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #     See the License for the specific language governing permissions and
 #     limitations under the License.
+import base64
 import json
 import logging
 from urlparse import urlparse
 
 from google.appengine.api import users
 
-from base import constants
 from base import handlers
+import settings
 
 # Minimal set of handlers to let you display main page with examples
 # class RootHandler(handlers.BaseHandler):
@@ -47,38 +48,44 @@ class MainPage(handlers.BaseHandler):
         * google
 
     Remember:
-        * To choose method edit AUTHORIZATION_METHOD in base/constants.py
-        * [google_method] You need to uncomment login: required in
+        * To choose method edit AUTHORIZATION_METHOD in settings.py
+        * [google_auth] You need to uncomment login: required in
           app.yaml.base
-        * [google_method] To update email white list add an email to file:
-          base/constants.py
+        * [google_auth] To update email white list add an email to file:
+          settings.py
     """
 
     def check_basic_auth(self):
-        return self.request.authorization == constants.BASIC_AUTH
+        if self.request.authorization:
+            authorization = base64.b64decode(self.request.authorization[1])
+        else:
+            return False
+        login, password = authorization.split(':')
+        return (login == settings.ADMIN_LOGIN and
+                password == settings.ADMIN_PASSWORD)
 
     def check_google_auth(self):
         user = users.get_current_user()
         if not user:
             return False
         _, auth_domain = user.email().split("@", 1)
-        is_domain = auth_domain in constants.EMAIL_WHITELIST
-        is_email = user.email() in constants.EMAIL_WHITELIST
+        is_domain = auth_domain in settings.EMAIL_WHITELIST
+        is_email = user.email() in settings.EMAIL_WHITELIST
         if is_domain or is_email:
             return True
 
-    def render_with_auth(self, path, _auth_type='basic_auth'):
+    def render_with_auth(self, path):
         auth_option = {
-            'basic_auth': self.check_basic_auth(),
-            'google': self.check_google_auth()
+            'basic_auth': self.check_basic_auth,
+            'google_auth': self.check_google_auth
         }
 
-        is_authorized = auth_option[_auth_type]
+        is_authorized = auth_option[settings.AUTHORIZATION_METHOD]()
 
         if is_authorized:
             return self.render(path)
 
-        if _auth_type == 'basic_auth':
+        if settings.AUTHORIZATION_METHOD == 'basic_auth':
             self.response.headers.add('WWW-Authenticate',
                                       'Basic realm="Login Required"')
             self.response.set_status(401)
@@ -89,8 +96,10 @@ class MainPage(handlers.BaseHandler):
     def get(self):
         parsed_url = urlparse(self.request.url)
         static_path = parsed_url.path
-        if not static_path or static_path == '/':
+        if static_path == '/':
             static_path = '/index.html'
-
-        self.render_with_auth(static_path,
-                              _auth_type=constants.AUTHORIZATION_METHOD)
+        try:
+            self.render_with_auth(static_path)
+        except Exception:
+            self.response.set_status(404)
+            self.render_with_auth('/not_found.html')

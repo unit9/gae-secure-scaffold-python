@@ -12,7 +12,6 @@
 #     See the License for the specific language governing permissions and
 #     limitations under the License.
 """Public constants for use in application configuration."""
-import base64
 import os
 
 
@@ -43,17 +42,9 @@ IS_DEV_APPSERVER = _IsDevAppServer()
 
 DEBUG = IS_DEV_APPSERVER
 
-TEMPLATE_DIR = os.path.sep.join([os.path.dirname(__file__), '..', 'templates'])
+template_dir = ('static' if os.environ.get('AUTHORIZATION_METHOD')
+                else 'templates')
 
-AUTHORIZATION_METHOD = 'basic_auth'
-
-# Email allowed to log in (only when AUTHORIZATION_METHOD == 'google')
-EMAIL_WHITELIST = {
-    'unit9.com',
-    'test@example.com'
-}
-
-ADMIN_DATA = ('login_name', 'password')
-auth_key = base64.b64encode(':'.join(ADMIN_DATA))
-
-BASIC_AUTH = ('Basic', auth_key)
+TEMPLATE_DIR = os.path.sep.join([os.path.dirname(__file__),
+                                 '..',
+                                 template_dir])

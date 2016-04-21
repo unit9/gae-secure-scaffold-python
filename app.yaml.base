@@ -39,20 +39,15 @@ handlers:
           upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
 
 # All URLs for Back End logic
-        - url: /.*
-          script: main.app
-#          login: required
+        - url: /api/.*
+          script: main.app          
           secure: always
 
-# All non-existing requests redirected to site root
-        - url: /(.+)/
-          static_files: static/index.html
-          upload: static/index.html
-          expiration: "15m"
-        - url: /(.+)
-          static_files: static/index.html
-          upload: static/index.html
-          expiration: "15m"
+# Handles 404 and serves static files 
+        - url: /.*
+          script: main.app
+          secure: always
+          __LOGIN_REQUIRED__
 
 libraries:
         - name: django
@@ -76,3 +71,8 @@ skip_files:
          - run_tests.py
          - .*_test.py
          - js/.*
+
+env_variables:
+  ADMIN_LOGIN: __ADMIN_LOGIN__
+  ADMIN_PASSWORD: __ADMIN_PASSWORD__
+  AUTHORIZATION_METHOD: __AUTHORIZATION_METHOD__

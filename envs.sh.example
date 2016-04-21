@@ -1,0 +1,5 @@
+export ADMIN_LOGIN=login
+export ADMIN_PASSWORD=password
+
+# availble methods basic_auth, google_auth
+export AUTHORIZATION_METHOD=basic_auth

@@ -70,8 +70,18 @@ gen_app_yaml() {
   if [[ ! -e "$PWD/app.yaml.base" ]] ; then
     die "no app.yaml.base in current directory"
   fi
+
+  if [ "$AUTHORIZATION_METHOD" == "google_auth" ] ; then
+    LOGIN_REQUIRED="login: required"
+  else
+    LOGIN_REQUIRED=""
+  fi
   $CAT $PWD/app.yaml.base | $SED -e "s/__APPLICATION__/$1/" \
-    -e "s/__VERSION__/$2/" > $OUTPUT_DIR/app.yaml
+    -e "s/__VERSION__/$2/" \
+    -e "s/__ADMIN_LOGIN__/$ADMIN_LOGIN/" \
+    -e "s/__ADMIN_PASSWORD__/$ADMIN_PASSWORD/" \
+    -e "s/__LOGIN_REQUIRED__/$LOGIN_REQUIRED/" \
+    -e "s/__AUTHORIZATION_METHOD__/$AUTHORIZATION_METHOD/"> $OUTPUT_DIR/app.yaml
 }
 
 clean_output_dir() {
@@ -93,6 +103,7 @@ build() {
     die "dev_appserver.py not found at $DEV_APPSERVER"
   fi
   reset_output_dir
+  source envs.sh
   local version=$(compute_version_string)
   gen_app_yaml "dev" "$version"
 }
@@ -111,6 +122,7 @@ deploy() {
   if [[ $1 =~ ^[a-zA-Z0-9-]+$ ]] ; then
     reset_output_dir
     local version=$(compute_version_string)
+    source envs.sh
     gen_app_yaml $1 $version
     gen_prod_js
     $APPCFG --no_cookies --skip_sdk_update_check --noauth_local_webserver update $OUTPUT_DIR
