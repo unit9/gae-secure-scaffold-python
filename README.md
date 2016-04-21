@@ -67,16 +67,16 @@ your application.
 ----
 
 1. Install vagrant  
-http://vagrantup.com/
+<http://vagrantup.com/>
 
 1. Instal required Vagrant plugins  
 ```$ vagrant plugin install vagrant-host-shell```
 
-1. Install Ansible
-```$ brew install ansible```
-
 1. Install VirtualBox  
-https://www.virtualbox.org/
+<https://www.virtualbox.org/>
+
+1. Download Putty and PuttyGen (For Windows Only)  
+<http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html>
 
 1. Clone the repo
 
@@ -86,20 +86,37 @@ https://www.virtualbox.org/
 1. Run Vagrant  
 ```$ vagrant up```
 
-## Development process 
+## Development process
 ----
 
 ####Start up Vagrant:
 `$ vagrant up`
 
-#### Log in into Vagrant:
-`l$ vagrant ssh`
+#### Log in into Vagrant
+
+* for Mac OS:  
+1. `$ vagrant ssh`
+
+* for Windows (based on <http://www.sitepoint.com/getting-started-vagrant-windows/>): 
+1. generate private key using PuttyGen   
+  1.1 load private key from [project_dir]/.vagrant/machines/default/virtualbox/private_key  
+  1.2 save as putty private key (save with .ppk) extension  
+
+1. create connection in Putty
+  1.1 create new session
+    * host: 127.0.0.1 
+    * port: 2222  
+    * from category (on left) choose Connection -> SSH -> Auth
+    * set `Private key file for authentication:` to .ppk file generated from PuttyGen
+    * Save and open 
+
+1. connect using login `vagrant`
 
 ## Front end Setup
 ----
 
-By default there are no front end files. You can start writing your own files. 
-Or you can use slush generator with prepared scripts to build scaffold for you. 
+By default there are no front end files. You can start writing your own files.
+Or you can use slush generator with prepared scripts to build scaffold for you.
 Generator is recommeded option. We provide several generators:
 
 * fe-static - very simple structure of files. No framework, pure structure.
@@ -140,14 +157,23 @@ The `/base` and `/template` and `/examples` directories are replicated in `out/`
 , and the files in `src/` are rebased into `out/` (so `src/base/foo.py` becomes
 `out/base/foo.py`).
 
-Files directly in '/src' are rebased into '/out' (e.g. `src/main.py` becomes 
+Files directly in '/src' are rebased into '/out' (e.g. `src/main.py` becomes
 `out/main.py`).
 
 Local Front End server works on port 3000 (http://localhost:3000).
 
 Local Back End server works on port 8080 (http://localhost:8080).
 
-Right now `index.html` file has provided as static file from 
+Right now `index.html` file has provided as static file from
 `out/static/index.html`. If you decide to generate this from template, uncomment
-routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And 
+routing in `main.py` (line 30) and class at `handlers.py` (lines 19-23). And
 change rule from app.yaml.base (line 42)
+
+Windows users! It may happen that Windows Os will mess new line chars. You can 
+fix it  setting in IDE 'linux style line endings' or correct them in command 
+line:
+
+1. install dos2unix `sudo apt-get install dos2unix` 
+
+1. run `find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix` where 4 is number
+of processes run simultaneously.
