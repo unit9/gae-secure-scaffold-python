@@ -73,6 +73,12 @@ class MainPage(handlers.BaseHandler):
         is_email = user.email() in settings.EMAIL_WHITELIST
         if is_domain or is_email:
             return True
+        return False
+
+    def setup_basic_auth_headers(self):
+        self.response.headers.add('WWW-Authenticate',
+                                  'Basic realm="Login Required"')
+        self.response.set_status(401)
 
     def render_with_auth(self, path):
         auth_option = {
@@ -86,9 +92,7 @@ class MainPage(handlers.BaseHandler):
             return self.render(path)
 
         if settings.AUTHORIZATION_METHOD == 'basic_auth':
-            self.response.headers.add('WWW-Authenticate',
-                                      'Basic realm="Login Required"')
-            self.response.set_status(401)
+            self.setup_basic_auth_headers()
             return
 
         return self.redirect(users.create_logout_url('/'))

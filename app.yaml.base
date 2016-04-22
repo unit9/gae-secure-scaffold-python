@@ -40,7 +40,7 @@ handlers:
 
 # All URLs for Back End logic
         - url: /api/.*
-          script: main.app          
+          script: main.app
           secure: always
 
 # Handles 404 and serves static files 
