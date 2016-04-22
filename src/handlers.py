@@ -49,11 +49,9 @@ class MainPage(handlers.BaseHandler):
         * google
 
     Remember:
-        * To choose method edit AUTHORIZATION_METHOD in settings.py
-        * [google_auth] You need to uncomment login: required in
-          app.yaml.base
-        * [google_auth] To update email white list add an email to file:
-          settings.py
+        * To choose method edit AUTHORIZATION_METHOD in evs.sh
+        * To update email white list add an email to file:
+          envs.sh
     """
 
     def check_basic_auth(self):
