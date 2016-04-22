@@ -42,9 +42,4 @@ IS_DEV_APPSERVER = _IsDevAppServer()
 
 DEBUG = IS_DEV_APPSERVER
 
-template_dir = ('static' if os.environ.get('AUTHORIZATION_METHOD')
-                else 'templates')
-
-TEMPLATE_DIR = os.path.sep.join([os.path.dirname(__file__),
-                                 '..',
-                                 template_dir])
+TEMPLATE_DIR = os.path.sep.join([os.path.dirname(__file__), '..', 'templates'])
