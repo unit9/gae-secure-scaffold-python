@@ -17,6 +17,7 @@ import logging
 from urlparse import urlparse
 
 from google.appengine.api import users
+import jinja2
 
 from base import handlers
 import settings
@@ -104,6 +105,6 @@ class MainPage(handlers.BaseHandler):
             static_path = '/index.html'
         try:
             self.render_with_auth(static_path)
-        except Exception:
+        except jinja2.exceptions.TemplateNotFound:
             self.response.set_status(404)
             self.render_with_auth('/not_found.html')
