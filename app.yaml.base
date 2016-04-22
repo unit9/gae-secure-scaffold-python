@@ -38,6 +38,11 @@ handlers:
           static_files: static/\1
           upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
 
+# audio files
+        - url: /(.*\.(mid|midi|mp3|wav))
+          static_files: static/\1
+          upload: static/(.*\.(mid|midi|mp3|wav)) 
+
 # site root
         - url: /
           static_files: static/index.html
