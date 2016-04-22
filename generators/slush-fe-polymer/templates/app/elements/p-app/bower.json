@@ -1,0 +1,24 @@
+{
+  "name": "polymer-p-app",
+  "version": "0.0.1",
+  "description": "Polymer p-app element",
+  "main": "p-app.html",
+  "keywords": [
+    "polymer",
+    "element",
+    "p-app"
+  ],
+  "authors": [
+    "Krzysztof Nowak <krzysztof.nowak@unit9.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

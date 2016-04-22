@@ -1,0 +1,31 @@
+{
+    "name": "slush-fe-polymer",
+    "description": "",
+    "version": "0.1.0",
+    "author": {
+        "name": "Krzysztof Nowak",
+        "email": "krzysztof.nowak@unit9.com"
+    },
+    "license": "MIT",
+    "main": "slushfile.js",
+    "engines": {
+        "node": ">= 0.10.26",
+        "npm": ">=1.4.3"
+    },
+    "dependencies": {
+        "slush": ">=1.0.0",
+        "gulp": "^3.6.2",
+        "gulp-template": "^0.1.1",
+        "gulp-install": "^0.1.4",
+        "gulp-conflict": "^0.1.1",
+        "gulp-rename": "^1.2.0",
+        "gulp-replace": "^0.5.4",
+        "underscore.string": "^2.3.3",
+        "inquirer": "^0.8.0",
+        "iniparser": "^1.0.5",
+        "run-sequence": "^1.1.5"
+    },
+    "keywords": [
+        "slushgenerator"
+    ]
+}

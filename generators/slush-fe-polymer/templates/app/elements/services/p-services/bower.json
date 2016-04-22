@@ -1,0 +1,24 @@
+{
+  "name": "polymer-p-services",
+  "version": "0.0.1",
+  "description": "Polymer p-services element",
+  "main": "p-services.html",
+  "keywords": [
+    "polymer",
+    "element",
+    "p-services"
+  ],
+  "authors": [
+    "Krzysztof Nowak <krzysztof.nowak@unit9.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

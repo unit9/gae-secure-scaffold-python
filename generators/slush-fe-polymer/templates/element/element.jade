@@ -1,0 +1,12 @@
+//- script(src='<%= srcPath %>/bower_components/somecomponent/component.js')
+//- link(rel='<%= srcPath %>/bower_components/somecomponent/component.html')
+
+dom-module(id='<%= name %>')
+
+  template
+    style
+      include /elements/<%= path %>/styles/<%= name %>.css
+  
+    span This is a '<%= name %>' element.
+
+  script(src='scripts/<%= name %>.js')
