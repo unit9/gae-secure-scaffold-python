@@ -45,9 +45,6 @@ test
 tmp
 out
 
-gulpfile.js
-gulpfile.js.map
-
 # others from GAE
 .DS_Store
 *.pyc
