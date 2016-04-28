@@ -162,6 +162,11 @@ gulp.task('element', function (cb) {
         path.basename = name;
       }
     }))
+    .pipe(rename(function (file) {
+      if (file.basename[0] === '-') {
+        file.basename = '.' + file.basename.slice(1);
+      }
+    }))
     .pipe(conflict(outputPath))
     .pipe(gulp.dest(outputPath))
     .on('end', function () {
